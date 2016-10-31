@@ -1,0 +1,10 @@
+######################################################################################
+## Demultiplexing, e.g. deML (ok)
+$softw/deml/src/deML -i $work/Index.txt \
+-f $raw_scr/Undetermined_S0_L002_R1_001.fastq.gz \
+-r $raw_scr/Undetermined_S0_L002_R2_001.fastq.gz \
+-if1 $raw_scr/Undetermined_S0_L002_I1_001.fastq.gz \
+-if2 $raw_scr/Undetermined_S0_L002_I2_001.fastq.gz \
+-s $work/Summaryfile \
+-e $work/Errorfile \
+-o $work/demultiplexed.
