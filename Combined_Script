@@ -1,0 +1,249 @@
+## 13.9.2016: ## ancient dna first scripts
+
+#Definitions
+#################################################################
+export PATH=$PATH:/usr/local/bin
+export PATH=$PATH:/usr/bin
+
+#Make directorys
+
+#Links 
+data_w=/Home_Ibex/Work/multiplex
+work=/Home_Ibex/Work
+softw=/Home_Ibex/Software
+work=/Home_Ibex/Work
+softw=/Home_Ibex/Software
+raw_scr=/Home_Ibex/Rawdata/Screening/Ibex_referenz_genom
+DMG=/Home_Ibex/Work/mapDMG
+
+trim=/Home_Ibex/Software/Trimmomatic-0.36/trimmomatic-0.36.jar
+picard=/Home_Ibex/Software/picard.jar
+
+################################################################################################
+## 1. Download data from FGCZ
+################################################################################################
+cd /bli/.stin/raw/rawIBEX/aut/
+wget --continue --user= --password= --directory=/ http://fgcz-gstore.uzh.ch/projects/p1472/HiSeq2500_RR4_20160908_o2738/Undetermined_S0_L002_R1_001.fastq.gz
+wget --continue --user= --password= --directory=/ http://fgcz-gstore.uzh.ch/projects/p1472/HiSeq2500_RR4_20160908_o2738/Undetermined_S0_L002_R2_001.fastq.gz
+
+# das sie die indices
+wget --continue --user= --password= --directory=/ http://fgcz-gstore.uzh.ch/projects/p1472/HiSeq2500_RR4_20160908_o2738/Undetermined_S0_L002_I1_001.fastq.gz
+wget --continue --user= --password= --directory=/ http://fgcz-gstore.uzh.ch/projects/p1472/HiSeq2500_RR4_20160908_o2738/Undetermined_S0_L002_I2_001.fastq.gz
+
+
+## Quality Checks
+################################################################################################
+# 2.Run FastQC to look at data: find file in . actual folder and make fastqc file for quality check. 
+find . -name "*.fastq.gz" | xargs -n 1 fastqc
+
+#3. Herausfinden qualityscore format phred33 (Ab Sanger Sequencing 1.8) oder phred64 (Platformabhängig), Herunterladen der (2.) Erstellten fastqc html daten auf lokale maschine für Ansicht mit rsync befehl. Oeffnen der html files-> suchen nach Encoding Ilumina 1.9 -> phred33
+rsync -avP centos@172.23.164.214:/Home_Ibex/Rawdata/Screening/*html .
+
+
+#SLIDINGWINDOW:<windowSize>:<requiredQuality> 
+
+#MAXINFO:<targetlengt>:<strictness>, targetlength -> lengths of fragment to be allocated, strictness between 0 to 1. High strictness -0.8 faovurs read corctness, low <0.2 favours readlength
+
+#LEADING:quality,-> specifies te minimum quality reaquired to keep a base from the start as long as below the set value
+#TRAILING: Remove low quality bases from the end
+
+
+######################################################################################
+## Demultiplexing, e.g. deML (ok)
+$softw/deml/src/deML -i $work/Index.txt \
+-f $raw_scr/Undetermined_S0_L002_R1_001.fastq.gz \
+-r $raw_scr/Undetermined_S0_L002_R2_001.fastq.gz \
+-if1 $raw_scr/Undetermined_S0_L002_I1_001.fastq.gz \
+-if2 $raw_scr/Undetermined_S0_L002_I2_001.fastq.gz \
+-s $work/Summaryfile \
+-e $work/Errorfile \
+-o $work/demultiplexed.
+
+
+##Beschreibung code
+src/deML -i testData/index.txt \
+-f (forward)testData/todemultiplex.fq1.gz \
+-r (reverse)testData/todemultiplex.fq2.gz \
+-if1 (adapterfile 1)testData/todemultiplex.i1.gz \
+-if2 (adapterfile 2) testData/todemultiplex.i2.gz \
+-o (output) testData/demultiplexed.<-
+
+##Data Trimming, Trimomatic #######################################################
+#Files zusammenführen
+mkdir $work/demultiplexed_combined
+
+cat demultiplexed._${Name}_r1.fq.gz \
+demultiplexed._${Name}_r1.fail.fq.gz \
+ > $work/demultiplexed_combined/demultiplexed._${Name}_r1_combined.fq.gz
+
+cat demultiplexed._${Name}_r2.fq.gz \
+demultiplexed._${Name}_r2.fail.fq.gz \
+ > $work/demultiplexed_combined/demultiplexed._${Name}_r2_combined.fq.gz
+
+java -jar $trim PE -phred33 -trimlog logfile \
+$work/demultiplexed_combined/demultiplexed._${Name}_r1_combined.fq.gz \
+$work/demultiplexed_combined/demultiplexed._${Name}_r2_combined.fq.gz \
+$work/output_forward_paired.fq.gz $work/output_forward_unpaired.fq.gz \
+$work/output_reverse_paired.fq.gz $work/output_reverse_unpaired.fq.gz \
+ILLUMINACLIP:$softw/Trimmomatic-0.36/adapters/TruSeq3-PE-2.fa:2:30:10:1 \
+LEADING:3 MAXINFO:15:0.7 SLIDINGWINDOW:4:15 MINLEN:30
+
+#Erklärung des Codes: http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf
+
+java -jar >paht trimomatic.jar< PE [-threads <threads (anzahl kerne)] [-phred33 | -phred64 (Qualitätsscre)] [-trimlog <logFile>] <input 1 (da gezipt-> anghängen von .gz)> <input 2> <paired output 1> <unpaired output 1> <paired output 2> <unpaired output 2> <step 1> ...
+
+#Iluminaclip2:30:10:-> optionae sachen nur für palindrome 1:true 
+#Iluminaclip seed mismatches2:palindrom clip treshold30:simple clip treshold 10: Optional-> min adapterlength (reduced from 8 to 1, schneidet kleine adapter weg):1, keepBothReads:true (behält reverse read).
+
+#test: 
+Name=Be04
+cat demultiplexed._${Name}_r1.fq.gz \
+demultiplexed._${Name}_r1.fail.fq.gz \
+ > $work/demultiplexed_combined/demultiplexed._${Name}_r1_combined.fq.gz
+
+cat demultiplexed._${Name}_r2.fq.gz \
+demultiplexed._${Name}_r2.fail.fq.gz \
+ > $work/demultiplexed_combined/demultiplexed._${Name}_r2_combined.fq.gz
+
+java -jar $trim PE -phred33 -trimlog logfile \
+$work/demultiplexed_combined/demultiplexed._${Name}_r1_combined.fq.gz \
+$work/demultiplexed_combined/demultiplexed._${Name}_r2_combined.fq.gz \
+$work/out_trim/${Name}_output_forward_paired.fq.gz $work/out_trim/${Name}_output_forward_unpaired.fq.gz \
+$work/out_trim/${Name}_output_reverse_paired.fq.gz $work/out_trim/${Name}_output_reverse_unpaired.fq.gz \
+ILLUMINACLIP:$softw/Trimmomatic-0.36/adapters/adapters.fa:2:30:10:1 \
+LEADING:3 MAXINFO:15:0.7 SLIDINGWINDOW:4:15 MINLEN:30
+
+##############################################################
+#Mapping (Details siehe bechreibung unten)
+#Reverenzgenome (1. downloaden und mit gzip unzipen
+wget https://www.dropbox.com/s/yx2je5rp8u1hq7o/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta.gz
+###index files
+#bwa index $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta
+
+for Name in Be01.1b Be03 Be04 Be05 Lu01 Lu02.1 Lu03 Lu04.2 Ne01.1 Chu01 Zu01 Wi01 EB2 EB3 EB6 EB7 EB10 EB12 LB1 LB2
+do 
+	echo $Name
+bwa mem $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+$work/out_trim/${Name}_{forward,reverse}_paired.fq.gz | \
+samtools sort -o $work/sam_out/${Name}_paired_comb_bwa.bam
+
+cat $work/out_trim/${Name}_forward_unpaired.fq.gz \
+$work/out_trim/${Name}_reverse_unpaired.fq.gz \
+ > $work/out_trim/${Name}_combined_unpaired.fq.gz
+
+bwa mem $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+$work/out_trim/${Name}_combined_unpaired.fq.gz | \
+samtools sort -o  $work/sam_out/${Name}_unpaired_comb_bwa.bam 
+
+echo "$Name" >> $work/flagstat.txt
+samtools flagstat $work/sam_out/${Name}_paired_comb_bwa.bam >>  $work/flagstat.txt
+
+echo "$Name unpaird" >> $work/flagstat.txt
+samtools flagstat $work/sam_out/${Name
+done 
+########
+#Mark dublicates
+for Name in Be01.1b Be03 Be04 Be05 Lu01 Lu02.1 Lu03 Lu04.2 Ne01.1 Chu01 Zu01 Wi01 EB2 EB3 EB6 EB7 EB10 EB12 LB1 LB2
+do 
+	echo $Name
+java -jar $picard MarkDuplicates \
+INPUT=$work/sam_out/${Name}_paired_comb_bwa.bam \
+OUTPUT=$work/Dedub/${Name}_dedub_paired.bam \
+METRICS_FILE=$work/Dedub/${Name}_dedub_paired.metrics
+
+java -jar $picard AddOrReplaceReadGroups \
+      I=$work/Dedub/${Name}_dedub_paired.bam \
+      O=$work/Variant_call/${Name}_paired_RG.bam \
+      RGID=4 \
+      RGLB=lib1 \
+      RGPL=illumina \
+      RGPU=unit1 \
+      RGSM=20
+samtools index $work/Variant_call/${Name}_paired_RG.bam
+
+java -jar $picard MarkDuplicates \
+INPUT=$work/sam_out/${Name}_unpaired_comb_bwa.bam \
+OUTPUT=$work/Dedub/${Name}_dedub_unpaired.bam \
+METRICS_FILE=$work/Dedub/${Name}_dedub_unpaired.metrics
+
+java -jar $picard AddOrReplaceReadGroups \
+      I=$work/Dedub/${Name}_dedub_unpaired.bam \
+      O=$work/Variant_call/${Name}_unpaired_RG.bam \
+      RGID=4 \
+      RGLB=lib1 \
+      RGPL=illumina \
+      RGPU=unit1 \
+      RGSM=20
+samtools index $work/Variant_call/${Name}_unpaired_RG.bam
+
+done
+####################################################################################################################################
+#mkdir /Home_Ibex/Work/Genomcoverage
+
+for Name in Be03 Be01.1b Be03 Be04 Be05 Lu01 Lu02.1 Lu03 Lu04.2 Ne01.1 Chu01 Zu01 Wi01 EB2 EB3 EB6 EB7 EB10 EB12 LB1 LB2
+do
+echo $Name
+bedtools genomecov -bga -ibam $work/Dedub/${Name}_dedub_paired.bam -g $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta > ${Name}_Coverage.txtS
+done
+
+###R-Script
+#library("ggplot2")
+#getwd()
+#setwd("Home_Ibex/usw.")
+#coplot=read.delim(xyz.txt) #or coplot=read.talbe(xyz.txt)
+#ggplot(cov[cov$V1!="chrMT",], aes(x=V4)) + geom_histogram()
+#######################################################################################################################################
+
+
+
+export PATH=$PATH:/usr/local/bin
+rm -r /$work/mapDMG
+mkdir /$work/mapDMG
+
+for Name in Be01.1b Be03 Be04 Be05 Lu01 Lu02.1 Lu03 Lu04.2 Ne01.1 Chu01 Zu01 Wi01 EB2 EB3 EB6 EB7 EB10 EB12 LB1 LB2
+do
+echo $Name
+cd /$work/mapDMG
+mkdir ${Name}_mapDMG
+mapDamage -v \
+-d /Home_Ibex/Work/mapDMG/${Name}_mapDMG \
+-i $work/Dedub/${Name}_dedub_paired.bam \
+-r $raw_scr/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta --rescale
+done
+
+#Explenation
+#Running the rescaling of the quality scores taking into account the damage estimates:
+#mapDamage -i mymap.bam -r myreference --rescale
+
+#To run the statistical estimation using only the 5'-ends and with verbose output:
+# mapDamage -d results_mydata --forward --stats-only -
+
+#detailed explenation : https://ginolhac.github.io/mapDamage/#a3
+
+
+####################################################
+#Variant calling
+#######################################
+#Indexing reverenz genome file for Variant calling
+samtools faidx /$raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta 
+#Create Sequence Dictionary
+java -jar $picard CreateSequenceDictionary R=/$raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta O=$raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.dict
+
+#########Calling variants per genome
+
+for Name in Be03 Be01.1b Be04 Be05 Lu01 Lu02.1 Lu03 Lu04.2 Ne01.1 Chu01 Zu01 Wi01 EB2 EB3 EB6 EB7 EB10 EB12 LB1 LB2
+
+do 
+echo $Name
+java -jar /Home_Ibex/Software/GenomeAnalysisTK.jar -T HaplotypeCaller \
+-R /$raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+-I $work/Variant_call/${Name}_paired_RG.bam \
+--emitRefConfidence GVCF \
+-o $work/Variant_call/VCF/${Name}_paired_VC.g.vcf.gz
+
+java -jar /Home_Ibex/Software/GenomeAnalysisTK.jar -T HaplotypeCaller \
+-R /$raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+-I $work/Variant_call/${Name}_unpaired_RG.bam \
+--emitRefConfidence GVCF \
+-o $work/Variant_call/VCF/${Name}_unpaired_VC.g.vcf.gz
+done
