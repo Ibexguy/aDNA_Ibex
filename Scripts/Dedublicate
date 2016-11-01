@@ -1,0 +1,36 @@
+#Dedublicate, Add readgrups and index files
+for Name in Be01.1b Be03 Be04 Be05 Lu01 Lu02.1 Lu03 Lu04.2 Ne01.1 Chu01 Zu01 Wi01 EB2 EB3 EB6 EB7 EB10 EB12 LB1 LB2
+
+do 
+	echo $Name
+java -jar $picard MarkDuplicates \
+INPUT=$work/sam_out/${Name}_paired_comb_bwa.bam \
+OUTPUT=$work/Dedub/${Name}_dedub_paired.bam \
+METRICS_FILE=$work/Dedub/${Name}_dedub_paired.metrics
+
+java -jar $picard AddOrReplaceReadGroups \
+      I=$work/Dedub/${Name}_dedub_paired.bam \
+      O=$work/Variant_call/${Name}_paired_RG.bam \
+      RGID=4 \
+      RGLB=lib1 \
+      RGPL=illumina \
+      RGPU=unit1 \
+      RGSM=20
+samtools index $work/Variant_call/${Name}_paired_RG.bam
+
+java -jar $picard MarkDuplicates \
+INPUT=$work/sam_out/${Name}_unpaired_comb_bwa.bam \
+OUTPUT=$work/Dedub/${Name}_dedub_unpaired.bam \
+METRICS_FILE=$work/Dedub/${Name}_dedub_unpaired.metrics
+
+java -jar $picard AddOrReplaceReadGroups \
+      I=$work/Dedub/${Name}_dedub_unpaired.bam \
+      O=$work/Variant_call/${Name}_unpaired_RG.bam \
+      RGID=4 \
+      RGLB=lib1 \
+      RGPL=illumina \
+      RGPU=unit1 \
+      RGSM=20
+samtools index $work/Variant_call/${Name}_unpaired_RG.bam
+
+done
