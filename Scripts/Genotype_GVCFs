@@ -1,0 +1,54 @@
+>Variant_names
+for Name in Be03 Be01.1b Be04 Be05 Lu01 Lu02.1 Lu03 Lu04.2 Ne01.1 Chu01 Zu01 Wi01 EB2 EB3 EB6 EB7 EB10 EB12 LB1 LB2
+
+do 
+echo -V $work/Variant_call/VCF/${Name}_paired_VC.g.vcf.gz
+echo -V $work/Variant_call/VCF/${Name}_unpaired_VC.g.vcf.gz
+done >> Variant_names
+
+#2.copy content the list to the -V postition and run GenotypeGVCFs
+java -jar /Home_Ibex/Software/GenomeAnalysisTK.jar -T GenotypeGVCFs \
+-nt 14 \
+--includeNonVariantSites \
+-R /$raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+-V /Home_Ibex/Work/Variant_call/VCF/Be03_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Be03_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Be01.1b_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Be01.1b_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Be04_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Be04_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Be05_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Be05_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Lu01_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Lu01_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Lu02.1_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Lu02.1_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Lu03_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Lu03_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Lu04.2_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Lu04.2_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Ne01.1_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Ne01.1_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Chu01_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Chu01_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Zu01_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Zu01_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Wi01_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/Wi01_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/EB2_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/EB2_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/EB3_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/EB3_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/EB6_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/EB6_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/EB7_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/EB7_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/EB10_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/EB10_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/EB12_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/EB12_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/LB1_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/LB1_unpaired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/LB2_paired_VC.g.vcf.gz
+-V /Home_Ibex/Work/Variant_call/VCF/LB2_unpaired_VC.g.vcf.gz
+-o $work/Variant_call/Comb_VCF/Combined_Variants.vcf.gz 
