@@ -9,10 +9,10 @@ git pull #dowonloaden von seite
 #Branchs (von oben nach unten abhandeln)
 git branch -a  #1.(Zeigt alle branches, * aktiver Branch)
 git checkout -b NAME_des_Branchs #2.(neuer Branch wird erstellt)
-git checkout master #3.(wechselt zu master(nahme) zurück)
+git checkout master #(fakultative, 3.(wechselt zu master(nahme)zurück)
 touch NAME #4.(kreiert neues file nahmens NAME)
 git add NAME #5.(trackt neues file) 
-git commit -m "develop file" NAME_Branch #6.(neues file exisiert nun ausschliesslich im branch)
+git commit -m "was habe ich gemacht" NAME #6.(neues file exisiert nun ausschliesslich im branch)
 
 #Branch Code mergen mit Masterbranch
 git checkout master # 1.(auf master wechseln)
