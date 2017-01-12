@@ -8,3 +8,5 @@ $softw/deml/src/deML -i $work/Index.txt \
 -s $work/Summaryfile \
 -e $work/Errorfile \
 -o $work/demultiplexed.
+
+test cluster
