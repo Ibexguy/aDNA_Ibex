@@ -1,4 +1,5 @@
 GIT
+git remote show origin #zeigt status des masterbranches auf der cloud an
 git add #verändertes_filename
 git status #-> zeigt verändert files
 git commit -m "was habe ich gemacht" #Bereited änderungen zum hochladen vor
