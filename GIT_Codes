@@ -21,4 +21,10 @@ git checkout master # 1.(auf master wechseln)
 git branch #2. (überpüfen ob wirklich auf master)
 git merge NAME_des_branchs --no-ff #3.(merged Branche inkl. commitments) 
 
+#Auf frühere versionen zurückkerehn 
+git branch NAME_Kope # 1. Kopieren des workbranchs
+git checkout NAME_Kopie # 2. auf Kopie wechseln
+git log --pretty # 3. Giebt SHA und comitments raus 
+git reset --hard <last good SHA> # 4. löscht alle commits & neuen files bis zu der angegeben SHA git branch -D NAME_orginalbranch #löscht den ausgangsbranch, ACHTUNG, nurm machen wenn änderungen ok!!!
+
 
