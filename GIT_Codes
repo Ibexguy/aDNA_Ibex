@@ -3,6 +3,7 @@ git remote show origin #zeigt status des masterbranches auf der cloud an
 git add #verändertes_filename
 git status #-> zeigt verändert files
 git commit -m "was habe ich gemacht" #Bereited änderungen zum hochladen vor
+git commit --amend #Fals vor dem commiten etwas vergessen gieng, übernimmt dieser befehl vorherige commitmeldung und überschreibt den Snapshot
 git push #"lädt veränderten Branch zum master hoch"
 
 git pull #dowonloaden von seite
