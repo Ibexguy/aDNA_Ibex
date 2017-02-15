@@ -20,90 +20,91 @@ done >> md5sums1.txt
 
 #combine R1 reads of all indices and R2 reads of all indices to their respective sample
 raw_comb=/mnt/Capri/rawdata_Capri/reads_combined
-rawg/mnt/Capri/rawdata_Capri
+raw_named=/mnt/Capri/rawdata_Capri/reads_named
+rawg=/mnt/Capri/rawdata_Capri
 
 #erstellt mit concatinate funtkion in excel
 #R1 Reds
-cp $rawg/P7166_1001/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/BE1.P7166_1001.R1.fastq.gz
-cp $rawg/P7166_1002/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/BE1.P7166_1002.R1.fastq.gz
-cp $rawg/P7166_1003/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/BE1.P7166_1003.R1.fastq.gz
-cp $rawg/P7166_1004/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/BE3.P7166_1004.R1.fastq.gz
-cp $rawg/P7166_1005/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/BE3.P7166_1005.R1.fastq.gz
-cp $rawg/P7166_1006/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/BE3.P7166_1006.R1.fastq.gz
-cp $rawg/P7166_1007/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/BE4.P7166_1007.R1.fastq.gz
-cp $rawg/P7166_1008/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/BE4.P7166_1008.R1.fastq.gz
-cp $rawg/P7166_1009/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/BE4.P7166_1009.R1.fastq.gz
-cp $rawg/P7166_1010/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Be5.P7166_1010.R1.fastq.gz
-cp $rawg/P7166_1011/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Be5.P7166_1011.R1.fastq.gz
-cp $rawg/P7166_1012/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Be5.P7166_1012.R1.fastq.gz
-cp $rawg/P7166_1013/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Chu.P7166_1013.R1.fastq.gz
-cp $rawg/P7166_1014/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Chu.P7166_1014.R1.fastq.gz
-cp $rawg/P7166_1015/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Chu.P7166_1015.R1.fastq.gz
-cp $rawg/P7166_1016/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Lu01.P7166_1016.R1.fastq.gz
-cp $rawg/P7166_1017/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Lu01.P7166_1017.R1.fastq.gz
-cp $rawg/P7166_1018/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Lu01.P7166_1018.R1.fastq.gz
-cp $rawg/P7166_1019/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Lu2.P7166_1019.R1.fastq.gz
-cp $rawg/P7166_1020/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Lu2.P7166_1020.R1.fastq.gz
-cp $rawg/P7166_1021/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Lu2.P7166_1021.R1.fastq.gz
-cp $rawg/P7166_1022/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Lu3.P7166_1022.R1.fastq.gz
-cp $rawg/P7166_1023/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Lu3.P7166_1023.R1.fastq.gz
-cp $rawg/P7166_1024/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Lu3.P7166_1024.R1.fastq.gz
-cp $rawg/P7166_1025/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Lu04.P7166_1025.R1.fastq.gz
-cp $rawg/P7166_1026/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Lu04.P7166_1026.R1.fastq.gz
-cp $rawg/P7166_1027/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Lu04.P7166_1027.R1.fastq.gz
-cp $rawg/P7166_1028/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Na1.P7166_1028.R1.fastq.gz
-cp $rawg/P7166_1029/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Na1.P7166_1029.R1.fastq.gz
-cp $rawg/P7166_1030/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Na1.P7166_1030.R1.fastq.gz
-cp $rawg/P7166_1031/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Wi1.P7166_1031.R1.fastq.gz
-cp $rawg/P7166_1032/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Wi1.P7166_1032.R1.fastq.gz
-cp $rawg/P7166_1033/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Wi1.P7166_1033.R1.fastq.gz
-cp $rawg/P7166_1034/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Zu01.P7166_1034.R1.fastq.gz
-cp $rawg/P7166_1035/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Zu01.P7166_1035.R1.fastq.gz
-cp $rawg/P7166_1036/02-FASTQ/*/*_R1_001.fastq.gz $raw_comb/Zu01.P7166_1036.R1.fastq.gz
+mv $rawg/P7166_1001/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/BE1.P7166_1001.R1.fastq.gz
+mv $rawg/P7166_1002/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/BE1.P7166_1002.R1.fastq.gz
+mv $rawg/P7166_1003/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/BE1.P7166_1003.R1.fastq.gz
+mv $rawg/P7166_1004/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/BE3.P7166_1004.R1.fastq.gz
+mv $rawg/P7166_1005/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/BE3.P7166_1005.R1.fastq.gz
+mv $rawg/P7166_1006/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/BE3.P7166_1006.R1.fastq.gz
+mv $rawg/P7166_1007/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/BE4.P7166_1007.R1.fastq.gz
+mv $rawg/P7166_1008/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/BE4.P7166_1008.R1.fastq.gz
+mv $rawg/P7166_1009/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/BE4.P7166_1009.R1.fastq.gz
+mv $rawg/P7166_1010/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Be5.P7166_1010.R1.fastq.gz
+mv $rawg/P7166_1011/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Be5.P7166_1011.R1.fastq.gz
+mv $rawg/P7166_1012/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Be5.P7166_1012.R1.fastq.gz
+mv $rawg/P7166_1013/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Chu.P7166_1013.R1.fastq.gz
+mv $rawg/P7166_1014/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Chu.P7166_1014.R1.fastq.gz
+mv $rawg/P7166_1015/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Chu.P7166_1015.R1.fastq.gz
+mv $rawg/P7166_1016/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Lu01.P7166_1016.R1.fastq.gz
+mv $rawg/P7166_1017/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Lu01.P7166_1017.R1.fastq.gz
+mv $rawg/P7166_1018/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Lu01.P7166_1018.R1.fastq.gz
+mv $rawg/P7166_1019/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Lu2.P7166_1019.R1.fastq.gz
+mv $rawg/P7166_1020/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Lu2.P7166_1020.R1.fastq.gz
+mv $rawg/P7166_1021/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Lu2.P7166_1021.R1.fastq.gz
+mv $rawg/P7166_1022/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Lu3.P7166_1022.R1.fastq.gz
+mv $rawg/P7166_1023/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Lu3.P7166_1023.R1.fastq.gz
+mv $rawg/P7166_1024/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Lu3.P7166_1024.R1.fastq.gz
+mv $rawg/P7166_1025/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Lu04.P7166_1025.R1.fastq.gz
+mv $rawg/P7166_1026/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Lu04.P7166_1026.R1.fastq.gz
+mv $rawg/P7166_1027/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Lu04.P7166_1027.R1.fastq.gz
+mv $rawg/P7166_1028/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Na1.P7166_1028.R1.fastq.gz
+mv $rawg/P7166_1029/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Na1.P7166_1029.R1.fastq.gz
+mv $rawg/P7166_1030/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Na1.P7166_1030.R1.fastq.gz
+mv $rawg/P7166_1031/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Wi1.P7166_1031.R1.fastq.gz
+mv $rawg/P7166_1032/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Wi1.P7166_1032.R1.fastq.gz
+mv $rawg/P7166_1033/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Wi1.P7166_1033.R1.fastq.gz
+mv $rawg/P7166_1034/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Zu01.P7166_1034.R1.fastq.gz
+mv $rawg/P7166_1035/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Zu01.P7166_1035.R1.fastq.gz
+mv $rawg/P7166_1036/02-FASTQ/*/*_R1_001.fastq.gz $raw_named/Zu01.P7166_1036.R1.fastq.gz
 
 ##R2 reads
-cp $rawg/P7166_1001/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/BE1.P7166_1001.R2.fastq.gz
-cp $rawg/P7166_1002/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/BE1.P7166_1002.R2.fastq.gz
-cp $rawg/P7166_1003/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/BE1.P7166_1003.R2.fastq.gz
-cp $rawg/P7166_1004/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/BE3.P7166_1004.R2.fastq.gz
-cp $rawg/P7166_1005/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/BE3.P7166_1005.R2.fastq.gz
-cp $rawg/P7166_1006/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/BE3.P7166_1006.R2.fastq.gz
-cp $rawg/P7166_1007/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/BE4.P7166_1007.R2.fastq.gz
-cp $rawg/P7166_1008/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/BE4.P7166_1008.R2.fastq.gz
-cp $rawg/P7166_1009/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/BE4.P7166_1009.R2.fastq.gz
-cp $rawg/P7166_1010/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Be5.P7166_1010.R2.fastq.gz
-cp $rawg/P7166_1011/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Be5.P7166_1011.R2.fastq.gz
-cp $rawg/P7166_1012/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Be5.P7166_1012.R2.fastq.gz
-cp $rawg/P7166_1013/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Chu.P7166_1013.R2.fastq.gz
-cp $rawg/P7166_1014/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Chu.P7166_1014.R2.fastq.gz
-cp $rawg/P7166_1015/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Chu.P7166_1015.R2.fastq.gz
-cp $rawg/P7166_1016/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Lu01.P7166_1016.R2.fastq.gz
-cp $rawg/P7166_1017/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Lu01.P7166_1017.R2.fastq.gz
-cp $rawg/P7166_1018/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Lu01.P7166_1018.R2.fastq.gz
-cp $rawg/P7166_1019/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Lu2.P7166_1019.R2.fastq.gz
-cp $rawg/P7166_1020/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Lu2.P7166_1020.R2.fastq.gz
-cp $rawg/P7166_1021/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Lu2.P7166_1021.R2.fastq.gz
-cp $rawg/P7166_1022/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Lu3.P7166_1022.R2.fastq.gz
-cp $rawg/P7166_1023/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Lu3.P7166_1023.R2.fastq.gz
-cp $rawg/P7166_1024/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Lu3.P7166_1024.R2.fastq.gz
-cp $rawg/P7166_1025/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Lu04.P7166_1025.R2.fastq.gz
-cp $rawg/P7166_1026/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Lu04.P7166_1026.R2.fastq.gz
-cp $rawg/P7166_1027/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Lu04.P7166_1027.R2.fastq.gz
-cp $rawg/P7166_1028/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Na1.P7166_1028.R2.fastq.gz
-cp $rawg/P7166_1029/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Na1.P7166_1029.R2.fastq.gz
-cp $rawg/P7166_1030/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Na1.P7166_1030.R2.fastq.gz
-cp $rawg/P7166_1031/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Wi1.P7166_1031.R2.fastq.gz
-cp $rawg/P7166_1032/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Wi1.P7166_1032.R2.fastq.gz
-cp $rawg/P7166_1033/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Wi1.P7166_1033.R2.fastq.gz
-cp $rawg/P7166_1034/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Zu01.P7166_1034.R2.fastq.gz
-cp $rawg/P7166_1035/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Zu01.P7166_1035.R2.fastq.gz
-cp $rawg/P7166_1036/02-FASTQ/*/*_R2_001.fastq.gz $raw_comb/Zu01.P7166_1036.R2.fastq.gz
+mv $rawg/P7166_1001/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/BE1.P7166_1001.R2.fastq.gz
+mv $rawg/P7166_1002/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/BE1.P7166_1002.R2.fastq.gz
+mv $rawg/P7166_1003/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/BE1.P7166_1003.R2.fastq.gz
+mv $rawg/P7166_1004/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/BE3.P7166_1004.R2.fastq.gz
+mv $rawg/P7166_1005/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/BE3.P7166_1005.R2.fastq.gz
+mv $rawg/P7166_1006/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/BE3.P7166_1006.R2.fastq.gz
+mv $rawg/P7166_1007/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/BE4.P7166_1007.R2.fastq.gz
+mv $rawg/P7166_1008/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/BE4.P7166_1008.R2.fastq.gz
+mv $rawg/P7166_1009/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/BE4.P7166_1009.R2.fastq.gz
+mv $rawg/P7166_1010/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Be5.P7166_1010.R2.fastq.gz
+mv $rawg/P7166_1011/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Be5.P7166_1011.R2.fastq.gz
+mv $rawg/P7166_1012/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Be5.P7166_1012.R2.fastq.gz
+mv $rawg/P7166_1013/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Chu.P7166_1013.R2.fastq.gz
+mv $rawg/P7166_1014/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Chu.P7166_1014.R2.fastq.gz
+mv $rawg/P7166_1015/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Chu.P7166_1015.R2.fastq.gz
+mv $rawg/P7166_1016/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Lu01.P7166_1016.R2.fastq.gz
+mv $rawg/P7166_1017/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Lu01.P7166_1017.R2.fastq.gz
+mv $rawg/P7166_1018/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Lu01.P7166_1018.R2.fastq.gz
+mv $rawg/P7166_1019/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Lu2.P7166_1019.R2.fastq.gz
+mv $rawg/P7166_1020/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Lu2.P7166_1020.R2.fastq.gz
+mv $rawg/P7166_1021/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Lu2.P7166_1021.R2.fastq.gz
+mv $rawg/P7166_1022/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Lu3.P7166_1022.R2.fastq.gz
+mv $rawg/P7166_1023/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Lu3.P7166_1023.R2.fastq.gz
+mv $rawg/P7166_1024/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Lu3.P7166_1024.R2.fastq.gz
+mv $rawg/P7166_1025/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Lu04.P7166_1025.R2.fastq.gz
+mv $rawg/P7166_1026/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Lu04.P7166_1026.R2.fastq.gz
+mv $rawg/P7166_1027/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Lu04.P7166_1027.R2.fastq.gz
+mv $rawg/P7166_1028/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Na1.P7166_1028.R2.fastq.gz
+mv $rawg/P7166_1029/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Na1.P7166_1029.R2.fastq.gz
+mv $rawg/P7166_1030/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Na1.P7166_1030.R2.fastq.gz
+mv $rawg/P7166_1031/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Wi1.P7166_1031.R2.fastq.gz
+mv $rawg/P7166_1032/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Wi1.P7166_1032.R2.fastq.gz
+mv $rawg/P7166_1033/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Wi1.P7166_1033.R2.fastq.gz
+mv $rawg/P7166_1034/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Zu01.P7166_1034.R2.fastq.gz
+mv $rawg/P7166_1035/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Zu01.P7166_1035.R2.fastq.gz
+mv $rawg/P7166_1036/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Zu01.P7166_1036.R2.fastq.gz
 
 
 for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do
-cat $rawg/$Name* > $Name.R1.fastq.gz
-cat $rawg/$Name* > $Name.R2.fastq.gz
+cat $raw_named/$Name* > $raw_comb/$Name.R1.fastq.gz
+cat $raw_named/$Name* > $raw_comb/$Name.R2.fastq.gz
 done
 
 #Links 
