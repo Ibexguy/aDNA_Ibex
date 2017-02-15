@@ -6,6 +6,17 @@ export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/bin
 
 #Make directorys
+Project=Capri
+for Name in $Project
+do
+echo $Name
+mkdir -pv /mnt/Capri/raw_data_$Project
+done
+
+#check md5sums in all files
+for i in {1001..1036} 
+do md5sum -c P7166_$i.md5
+done >> md5sums1.txt
 
 #Links 
 data_w=/Home_Ibex/Work/multiplex
