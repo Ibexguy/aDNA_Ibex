@@ -107,6 +107,11 @@ cat $raw_named/$Name* > $raw_comb/$Name.R1.fastq.gz
 cat $raw_named/$Name* > $raw_comb/$Name.R2.fastq.gz
 done
 
+## Quality Checks
+################################################################################################
+# 2.Run FastQC to look at data: find file in . actual folder and make fastqc file for quality check. 
+find $raw_named -name "*.fastq.gz" | xargs -n 1 fastqc
+
 #Links 
 data_w=/Home_Ibex/Work/multiplex
 work=/Home_Ibex/Work
@@ -131,10 +136,7 @@ wget --continue --user= --password= --directory=/ http://fgcz-gstore.uzh.ch/proj
 wget --continue --user= --password= --directory=/ http://fgcz-gstore.uzh.ch/projects/p1472/HiSeq2500_RR4_20160908_o2738/Undetermined_S0_L002_I2_001.fastq.gz
 
 
-## Quality Checks
-################################################################################################
-# 2.Run FastQC to look at data: find file in . actual folder and make fastqc file for quality check. 
-find . -name "*.fastq.gz" | xargs -n 1 fastqc
+
 
 #3. Herausfinden qualityscore format phred33 (Ab Sanger Sequencing 1.8) oder phred64 (Platformabhängig), Herunterladen der (2.) Erstellten fastqc html daten auf lokale maschine für Ansicht mit rsync befehl. Oeffnen der html files-> suchen nach Encoding Ilumina 1.9 -> phred33
 rsync -avP centos@172.23.164.214:/Home_Ibex/Rawdata/Screening/*html .
