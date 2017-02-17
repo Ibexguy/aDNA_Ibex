@@ -117,13 +117,12 @@ trim=/mnt/Capri/work_Capri/trim_output
 for Name in Lu2 Lu3 Lu04 Na1 Wi1 Zu01 
 do
 echo $Name
-java -jar $/home/debian/bin/Trimmomatic-0.36/trimmomatic-0.36.jar -thread 6 PE -phred33 \
-$raw_comb/$Name.R1.fastq.gz \
-$raw_comb/$Name.R2.fastq.gz \
+java -jar /home/debian/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 6 -phred33 \
+$raw_comb/$Name.R1.fastq.gz $raw_comb/$Name.R2.fastq.gz \
 $trim/${Name}_output_forward_paired.fq.gz $trim/${Name}_output_forward_unpaired.fq.gz \
 $trim/${Name}_output_reverse_paired.fq.gz $trim/${Name}_output_reverse_unpaired.fq.gz \
-ILLUMINACLIP:/home/debian/bin/Trimmomatic-0.36/adapters/adapters.fa:2:30:10:1 \
-LEADING:3 SLIDINGWINDOW:4:15 MINLEN:30
+ILLUMINACLIP:/home/debian/bin/Trimmomatic-0.36/adapters/TruSeq3-PE-2.fa:2:30:10:1 \
+LEADING:3 SLIDINGWINDOW:4:15 MINLEN:25
 done &> /mnt/Capri/work_Capri/trim_output/$Name.trimlog
 
 ##############################################################
@@ -248,7 +247,7 @@ $work/demultiplexed_combined/demultiplexed._${Name}_r2_combined.fq.gz \
 $work/output_forward_paired.fq.gz $work/output_forward_unpaired.fq.gz \
 $work/output_reverse_paired.fq.gz $work/output_reverse_unpaired.fq.gz \
 ILLUMINACLIP:$softw/Trimmomatic-0.36/adapters/TruSeq3-PE-2.fa:2:30:10:1 \
-LEADING:3 MAXINFO:15:0.7 SLIDINGWINDOW:4:15 MINLEN:30
+LEADING:3 MAXINFO:15:0.7 SLIDINGWINDOW:4:15 MINLEN:25
 
 #Erklärung des Codes: http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf
 
