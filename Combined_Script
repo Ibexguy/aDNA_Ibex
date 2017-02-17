@@ -118,13 +118,14 @@ do
 echo $Name
 
 java -jar $/home/debian/bin/Trimmomatic-0.36/trimmomatic-0.36.jar
--thread 14 PE -phred33 -trimlog logfile \
+-thread 6 PE -phred33 \
 $raw_comb/$Name.R1.fastq.gz \
 $raw_comb/$Name.R1.fastq.gz \
 $trim/${Name}_output_forward_paired.fq.gz $trim/${Name}_output_forward_unpaired.fq.gz \
 $trim/${Name}_output_reverse_paired.fq.gz $trim/${Name}_output_reverse_unpaired.fq.gz \
 ILLUMINACLIP:/home/debian/bin/Trimmomatic-0.36/adapters/adapters.fa:2:30:10:1 \
 LEADING:3 SLIDINGWINDOW:4:15 MINLEN:30
+done &> /mnt/Capri/work_Capri/trim_output/$Name.trimlog
 
 ##############################################################
 #Mapping (Details siehe bechreibung unten)
@@ -133,12 +134,12 @@ wget https://www.dropbox.com/s/yx2je5rp8u1hq7o/goat.chir1_0.GCA_000317765_1ANDmt
 ###index files
 #bwa index $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta
 
-for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
+for Name in BE1 #BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do 
 	echo $Name
-bwa mem $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
-$work/out_trim/${Name}_{forward,reverse}_paired.fq.gz | \
-samtools sort -o $work/sam_out/${Name}_paired_comb_bwa.bam
+bwa mem -t -R '@RG\tID:$RG\tSM:$RG\tPL:illumina\tLB:$LB'-M $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+$trim/${Name}_{forward,reverse}_paired.fq.gz | \
+samtools view -bS - > $work/bam/$.temp.bam 
 
 cat $work/out_trim/${Name}_forward_unpaired.fq.gz \
 $work/out_trim/${Name}_reverse_unpaired.fq.gz \
@@ -159,7 +160,8 @@ done
 ## Quality Checks
 ################################################################################################
 # 2.Run FastQC to look at data: find file in . actual folder and make fastqc file for quality check. 
-find $raw_named -name "*.fastq.gz" | xargs -n 1 fastqc
+fastqc=/home/debian/bin/FastQC/fastqc_
+find $raw_named -name "*.fastq.gz" | xargs -n 1 $fastqc
 
 
 
