@@ -132,28 +132,29 @@ done &> /mnt/Capri/work_Capri/trim_output/$Name.trimlog
 #Reverenzgenome (1. downloaden und mit gzip unzipen
 wget https://www.dropbox.com/s/yx2je5rp8u1hq7o/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta.gz
 ###index files
+bwa=/home/debian/bin/bwa/bwa
+output=/mnt/Capri/work_Capri/bwa_output
+samtools=/home/debian/bin/samtools-1.3.1/samtools
 #bwa index $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta
 
 for Name in BE1 #BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do 
 	echo $Name
-bwa mem -t -R '@RG\tID:$RG\tSM:$RG\tPL:illumina\tLB:$LB'-M $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+$bwa mem -t 3 -R '@RG\tID:$RG\tSM:$RG\tPL:illumina\tLB:$LB'-M \
+$raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 $trim/${Name}_{forward,reverse}_paired.fq.gz | \
-samtools view -bS - > $work/bam/$.temp.bam 
+samtools view -bS - > $output/${Name}_bwa_pared.bam 
 
-cat $work/out_trim/${Name}_forward_unpaired.fq.gz \
-$work/out_trim/${Name}_reverse_unpaired.fq.gz \
- > $work/out_trim/${Name}_combined_unpaired.fq.gz
+$bwa mem -t 3 -R '@RG\tID:$RG\tSM:$RG\tPL:illumina\tLB:$LB'-M \
+$raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+$trim/${Name}_{forward,reverse}_unpaired.fq.gz | \
+samtools view -bS - > $output/${Name}_bwa_unpared.bam 
 
-bwa mem $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
-$work/out_trim/${Name}_combined_unpaired.fq.gz | \
-samtools sort -o  $work/sam_out/${Name}_unpaired_comb_bwa.bam 
-
-echo "$Name" >> $work/flagstat.txt
-samtools flagstat $work/sam_out/${Name}_paired_comb_bwa.bam >>  $work/flagstat.txt
+echo "$Name pared" >> $work/flagstat.txt
+$samtools flagstat ${Name}_bwa_pared.bam >>  $output/flagstat.txt
 
 echo "$Name unpaird" >> $work/flagstat.txt
-samtools flagstat $work/sam_out/${Name
+$samtools flagstat ${Name}_bwa_unpared.bam >> $output/flagstat.txt
 done 
 
 
