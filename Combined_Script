@@ -103,14 +103,70 @@ mv $rawg/P7166_1036/02-FASTQ/*/*_R2_001.fastq.gz $raw_named/Zu01.P7166_1036.R2.f
 
 for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do
+echo $Name
 cat $raw_named/$Name* > $raw_comb/$Name.R1.fastq.gz
 cat $raw_named/$Name* > $raw_comb/$Name.R2.fastq.gz
 done
+
+raw_comb=/mnt/Capri/rawdata_Capri/reads_combined
+raw_named=/mnt/Capri/rawdata_Capri/reads_named
+rawg=/mnt/Capri/rawdata_Capri
+trim=/mnt/Capri/work_Capri/trim_output
+
+for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
+do
+echo $Name
+
+java -jar $/home/debian/bin/Trimmomatic-0.36/trimmomatic-0.36.jar
+-thread 14 PE -phred33 -trimlog logfile \
+$raw_comb/$Name.R1.fastq.gz \
+$raw_comb/$Name.R1.fastq.gz \
+$trim/${Name}_output_forward_paired.fq.gz $trim/${Name}_output_forward_unpaired.fq.gz \
+$trim/${Name}_output_reverse_paired.fq.gz $trim/${Name}_output_reverse_unpaired.fq.gz \
+ILLUMINACLIP:/home/debian/bin/Trimmomatic-0.36/adapters/adapters.fa:2:30:10:1 \
+LEADING:3 SLIDINGWINDOW:4:15 MINLEN:30
+
+##############################################################
+#Mapping (Details siehe bechreibung unten)
+#Reverenzgenome (1. downloaden und mit gzip unzipen
+wget https://www.dropbox.com/s/yx2je5rp8u1hq7o/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta.gz
+###index files
+#bwa index $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta
+
+for Name in Be01.1b Be03 Be04 Be05 Lu01 Lu02.1 Lu03 Lu04.2 Ne01.1 Chu01 Zu01 Wi01 EB2 EB3 EB6 EB7 EB10 EB12 LB1 LB2
+do 
+	echo $Name
+bwa mem $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+$work/out_trim/${Name}_{forward,reverse}_paired.fq.gz | \
+samtools sort -o $work/sam_out/${Name}_paired_comb_bwa.bam
+
+cat $work/out_trim/${Name}_forward_unpaired.fq.gz \
+$work/out_trim/${Name}_reverse_unpaired.fq.gz \
+ > $work/out_trim/${Name}_combined_unpaired.fq.gz
+
+bwa mem $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+$work/out_trim/${Name}_combined_unpaired.fq.gz | \
+samtools sort -o  $work/sam_out/${Name}_unpaired_comb_bwa.bam 
+
+echo "$Name" >> $work/flagstat.txt
+samtools flagstat $work/sam_out/${Name}_paired_comb_bwa.bam >>  $work/flagstat.txt
+
+echo "$Name unpaird" >> $work/flagstat.txt
+samtools flagstat $work/sam_out/${Name
+done 
+
 
 ## Quality Checks
 ################################################################################################
 # 2.Run FastQC to look at data: find file in . actual folder and make fastqc file for quality check. 
 find $raw_named -name "*.fastq.gz" | xargs -n 1 fastqc
+
+
+
+
+
+
+
 
 #Links 
 data_w=/Home_Ibex/Work/multiplex
