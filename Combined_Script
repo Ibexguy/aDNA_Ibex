@@ -112,15 +112,14 @@ raw_comb=/mnt/Capri/rawdata_Capri/reads_combined
 raw_named=/mnt/Capri/rawdata_Capri/reads_named
 rawg=/mnt/Capri/rawdata_Capri
 trim=/mnt/Capri/work_Capri/trim_output
+#BE1 BE3 BE4 Be5 Chu Lu01 
 
-for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
+for Name in Lu2 Lu3 Lu04 Na1 Wi1 Zu01 
 do
 echo $Name
-
-java -jar $/home/debian/bin/Trimmomatic-0.36/trimmomatic-0.36.jar
--thread 6 PE -phred33 \
+java -jar $/home/debian/bin/Trimmomatic-0.36/trimmomatic-0.36.jar -thread 6 PE -phred33 \
 $raw_comb/$Name.R1.fastq.gz \
-$raw_comb/$Name.R1.fastq.gz \
+$raw_comb/$Name.R2.fastq.gz \
 $trim/${Name}_output_forward_paired.fq.gz $trim/${Name}_output_forward_unpaired.fq.gz \
 $trim/${Name}_output_reverse_paired.fq.gz $trim/${Name}_output_reverse_unpaired.fq.gz \
 ILLUMINACLIP:/home/debian/bin/Trimmomatic-0.36/adapters/adapters.fa:2:30:10:1 \
