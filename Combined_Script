@@ -133,6 +133,7 @@ done &> /mnt/Capri/work_Capri/trim_output/$Name.trimlog
 wget https://www.dropbox.com/s/yx2je5rp8u1hq7o/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta.gz
 ###index files
 bwa=/home/debian/bin/bwa/bwa
+refg=/mnt/Capri/rawdata_Capri/ref_genome
 output=/mnt/Capri/work_Capri/bwa_output
 samtools=/home/debian/bin/samtools-1.3.1/samtools
 #bwa index $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta
@@ -141,12 +142,12 @@ for Name in BE1 #BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do 
 	echo $Name
 $bwa mem -t 3 -R '@RG\tID:$RG\tSM:$RG\tPL:illumina\tLB:$LB'-M \
-$raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+$refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 $trim/${Name}_{forward,reverse}_paired.fq.gz | \
 samtools view -bS - > $output/${Name}_bwa_pared.bam 
 
 $bwa mem -t 3 -R '@RG\tID:$RG\tSM:$RG\tPL:illumina\tLB:$LB'-M \
-$raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+$refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 $trim/${Name}_{forward,reverse}_unpaired.fq.gz | \
 samtools view -bS - > $output/${Name}_bwa_unpared.bam 
 
