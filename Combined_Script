@@ -133,7 +133,7 @@ wget https://www.dropbox.com/s/yx2je5rp8u1hq7o/goat.chir1_0.GCA_000317765_1ANDmt
 ###index files
 #bwa index $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta
 
-for Name in Be01.1b Be03 Be04 Be05 Lu01 Lu02.1 Lu03 Lu04.2 Ne01.1 Chu01 Zu01 Wi01 EB2 EB3 EB6 EB7 EB10 EB12 LB1 LB2
+for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do 
 	echo $Name
 bwa mem $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
