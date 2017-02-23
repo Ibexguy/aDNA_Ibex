@@ -162,10 +162,10 @@ sudo echo "$Name unpaird" >> $output/flagstat.txt
 $samtools flagstat $output/${Name}_*_unpared.bam >> $output/flagstat.txt
 done 
 
-for Name in BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
+for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do 
 $samtools sort --reference $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta -o $output/${Name}_unpared_sorted.bam --threads 30 $output/${Name}_*_unpared.bam 
-$samtools sort --reference $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta -o $output/${Name}_unpared_sorted.bam --threads 30 $output/${Name}_*_pared.bam 
+$samtools sort --reference $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta -o $output/${Name}_pared_sorted.bam --threads 30 $output/${Name}_*_pared.bam 
 done
 
 ## Quality Checks
