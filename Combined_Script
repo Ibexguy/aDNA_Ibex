@@ -136,9 +136,9 @@ output=/mnt/Capri/work_Capri/bwa_output
 samtools=/home/debian/bin/samtools-1.3.1/samtools
 trim=/mnt/Capri/work_Capri/trim_output
 #bwa index $raw_scr/Ibex_referenz_genom/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta
-BE3 BE4 Be5 Chu Lu01
 
-for Name in Lu2 Lu3 Lu04 Na1 Wi1 Zu01
+
+for Name in BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do 
 echo $Name
 $bwa mem -t 30 -R '@RG\tID:$RG\tSM:$RG\tPL:illumina\tLB:$LB'-M \
@@ -150,14 +150,19 @@ $bwa mem -t 30 -R '@RG\tID:$RG\tSM:$RG\tPL:illumina\tLB:$LB'-M \
 $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 $trim/${Name}_output_{forward,reverse}_unpaired.fq.gz | \
 $samtools view -bS - > $output/${Name}_output_bwa_unpared.bam 
-
-sudo echo "$Name pared" >> $output/flagstat.txt
-$samtools flagstat $output/${Name}_bwa_pared.bam >>  $output/flagstat.txt
-
-sudo echo "$Name unpaird" >> $output/flagstat.txt
-$samtools flagstat $output/${Name}_bwa_unpared.bam >> $output/flagstat.txt
 done 
 
+for Name in BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
+do 
+sudo echo "$Name pared" >> $output/flagstat.txt
+$samtools flagstat $output/${Name}_*_pared.bam >>  $output/flagstat.txt
+
+sudo echo "$Name unpaird" >> $output/flagstat.txt
+$samtools flagstat $output/${Name}_*_unpared.bam >> $output/flagstat.txt
+
+$samtools sort -o $output/${Name}_*_unpared.bam
+$samtools sort -o $output/${Name}_*_pared.bam
+done
 
 ## Quality Checks
 ################################################################################################
