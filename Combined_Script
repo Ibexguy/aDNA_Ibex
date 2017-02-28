@@ -447,3 +447,12 @@ java -jar /Home_Ibex/Software/GenomeAnalysisTK.jar -T HaplotypeCaller \
 --emitRefConfidence GVCF \
 -o $work/Variant_call/VCF/${Name}_unpaired_VC.g.vcf.gz
 done
+
+crapp und so
+
+for Name in BE3 BE3 BE5 Lu01 Chu
+do 
+echo $Name
+$samtools sort --reference $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta -o $output/${Name}_pared_sorted.bam --threads 30 $output/${Name}_bwa_pared.bam
+done
+
