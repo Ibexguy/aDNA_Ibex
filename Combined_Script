@@ -211,7 +211,7 @@ output=/mnt/Capri/work_Capri/bwa_output
 samtools=/home/debian/bin/samtools-1.3.1/samtools
 trim=/mnt/Capri/work_Capri/trim_output
 
-for Name in Be1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
+for Name in BE1 #BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do 
 echo $Name
 java -jar $picard MarkDuplicates \
@@ -228,25 +228,33 @@ $samtools index $dub/${Name}_dedub_unpaired.bam
 done
 ########################################################################################################
 ##############Variant calling
+#extract name of mitochondrion annotation from ref_genome : tail -1000  goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta | zgrep '>' 
+#Name of mitochondrion: >gi|316926505|ref|NC_005044.2| Capra hircus mitochondrion, complete genome
+#BP_RESOLUTION will give you every single site (variant and non-variant) as a record, and it will contain the GQ scores.
+
 vcf_out=/mnt/Capri/work_Capri/vcf_output
 GATK=/home/debian/bin/GenomeAnalysisTK.jar
 
-
-for Name in for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
+for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do
 echo $Name
 java -jar $GATK -T HaplotypeCaller \
--R /$refg \
+-R $refg \
+-L NC_005044.2 \
 -I $dub/${Name}_dedub_paired.bam \
---emitRefConfidence GVCF \
--o /mnt/Capri/work_Capri/vcf_output/${Name}_paired_VC.g.vcf.gz
+-nct 30 \
+--emitRefConfidence BP_RESOLUTION \
+-o /mnt/Capri/work_Capri/vcf_output/${Name}_mtgenom_paired.g.vcf.gz
 
 java -jar $GATK -T HaplotypeCaller \
--R /$refg \
+-R $refg \
+-L NC_005044.2 \
 -I $dub/${Name}_dedub_unpaired.bam \
---emitRefConfidence GVCF \
--o /mnt/Capri/work_Capri/vcf_output/${Name}_unpaired_VC.g.vcf.gz
+-nct 30 \
+--emitRefConfidence BP_RESOLUTION \
+-o /mnt/Capri/work_Capri/vcf_output/${Name}_mtgenom_unpaired.g.vcf.gz
 done
+
 #####################################################################################################################
 ## Quality Checks
 ################################################################################################
