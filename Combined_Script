@@ -246,7 +246,7 @@ do
 echo $Name
 java -jar $GATK -T HaplotypeCaller \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
--L 316926505 \
+-L gi \
 -I $dub/${Name}_dedub_paired.bam \
 -nct 30 \
 --emitRefConfidence BP_RESOLUTION \
@@ -254,7 +254,7 @@ java -jar $GATK -T HaplotypeCaller \
 
 java -jar $GATK -T HaplotypeCaller \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
--L 316926505 \
+-L gi \
 -I $dub/${Name}_dedub_unpaired.bam \
 -nct 30 \
 --emitRefConfidence BP_RESOLUTION \
