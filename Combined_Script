@@ -229,17 +229,19 @@ done
 ########################################################################################################
 ##############Variant calling
 vcf_out=/mnt/Capri/work_Capri/vcf_output
+GATK=/home/debian/bin/GenomeAnalysisTK.jar
+
 
 for Name in for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do
 echo $Name
-java -jar /Home_Ibex/Software/GenomeAnalysisTK.jar -T HaplotypeCaller \
+java -jar $GATK -T HaplotypeCaller \
 -R /$refg \
 -I $dub/${Name}_dedub_paired.bam \
 --emitRefConfidence GVCF \
 -o /mnt/Capri/work_Capri/vcf_output/${Name}_paired_VC.g.vcf.gz
 
-java -jar /Home_Ibex/Software/GenomeAnalysisTK.jar -T HaplotypeCaller \
+java -jar $GATK -T HaplotypeCaller \
 -R /$refg \
 -I $dub/${Name}_dedub_unpaired.bam \
 --emitRefConfidence GVCF \
