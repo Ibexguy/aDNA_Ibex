@@ -197,6 +197,10 @@ sudo echo "$Name unpaird" >> $output/flagstat.txt
 $samtools flagstat $output/${Name}_unpared_sorted.bam >> $output/flagstat.txt
 done 
 
+#########extract flagstat name total reeds, mapped reads and propperly paired reeds for Sample_paried and total reeds and mapped reads for unpaired_sample
+sed -ne '1~14p' sed -ne '2~14p' sed -ne '6~14p' sed -ne '10~28p' flagstat.txt | tee flagstat_extract.txt
+
+
 ####################################################################################################################################
 #Mark dublicates
 dub=/mnt/Capri/work_Capri/dub_output
@@ -509,4 +513,8 @@ done >> Variant_names
 java -jar /Home_Ibex/Software/GenomeAnalysisTK.jar -T GenotypeGVCFs \
 -nt 14 \
 --includeNonVariantSites \
+
+
+#########extract flagstat name total reeds, mapped reads and propperly paired reeds for Sample_paried and total reeds and mapped reads for unpaired_sample
+sed -ne '1~14p' sed -ne '2~14p' sed -ne '6~14p' sed -ne '10~28p' flagstat.txt | tee flagstat_extract.txt
 
