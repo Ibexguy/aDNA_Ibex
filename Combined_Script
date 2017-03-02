@@ -246,7 +246,7 @@ do
 echo $Name
 java -jar $GATK -T HaplotypeCaller \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
--L gi \
+-L "gi|316926505|ref|NC_005044.2|" \
 -I $dub/${Name}_dedub_paired.bam \
 -nct 30 \
 --emitRefConfidence BP_RESOLUTION \
@@ -254,12 +254,53 @@ java -jar $GATK -T HaplotypeCaller \
 
 java -jar $GATK -T HaplotypeCaller \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
--L gi \
+-L "gi|316926505|ref|NC_005044.2|" \
 -I $dub/${Name}_dedub_unpaired.bam \
 -nct 30 \
 --emitRefConfidence BP_RESOLUTION \
 -o /mnt/Capri/work_Capri/vcf_output/${Name}_mtgenom_unpaired.g.vcf.gz
 done
+
+
+#####1.Print the list of variant names with paths to the cript (2)
+
+
+for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
+do
+echo -V $vcf_out/${Name}_mtgenom_paired.g.vcf.gz
+echo -V $vcf_out/${Name}_mtgenom_unpaired.g.vcf.gz
+done >> $vcf_out/Variant_names
+
+#2.copy content the list to the -V postition and run GenotypeGVCFs
+java -jar $GATK -T GenotypeGVCFs \
+-nt 30 \
+--includeNonVariantSites \
+-R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+-V /mnt/Capri/work_Capri/vcf_output/BE1_mtgenom_paired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/BE1_mtgenom_unpaired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/BE3_mtgenom_paired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/BE3_mtgenom_unpaired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/BE4_mtgenom_paired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/BE4_mtgenom_unpaired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Be5_mtgenom_paired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Be5_mtgenom_unpaired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Chu_mtgenom_paired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Chu_mtgenom_unpaired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Lu01_mtgenom_paired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Lu01_mtgenom_unpaired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Lu2_mtgenom_paired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Lu2_mtgenom_unpaired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Lu3_mtgenom_paired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Lu3_mtgenom_unpaired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Lu04_mtgenom_paired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Lu04_mtgenom_unpaired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Na1_mtgenom_paired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Na1_mtgenom_unpaired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Wi1_mtgenom_paired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Wi1_mtgenom_unpaired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Zu01_mtgenom_paired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/Zu01_mtgenom_unpaired.g.vcf.gz \
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants.vcf.gz 
 
 #####################################################################################################################
 ## Quality Checks
@@ -529,6 +570,31 @@ done >> Variant_names
 java -jar /Home_Ibex/Software/GenomeAnalysisTK.jar -T GenotypeGVCFs \
 -nt 14 \
 --includeNonVariantSites \
+-V /mnt/Capri/work_Capri/vcf_output/BE1_mtgenom_paired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/BE1_mtgenom_unpaired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/BE3_mtgenom_paired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/BE3_mtgenom_unpaired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/BE4_mtgenom_paired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/BE4_mtgenom_unpaired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Be5_mtgenom_paired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Be5_mtgenom_unpaired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Chu_mtgenom_paired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Chu_mtgenom_unpaired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Lu01_mtgenom_paired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Lu01_mtgenom_unpaired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Lu2_mtgenom_paired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Lu2_mtgenom_unpaired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Lu3_mtgenom_paired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Lu3_mtgenom_unpaired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Lu04_mtgenom_paired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Lu04_mtgenom_unpaired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Na1_mtgenom_paired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Na1_mtgenom_unpaired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Wi1_mtgenom_paired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Wi1_mtgenom_unpaired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Zu01_mtgenom_paired.g.vcf.gz
+-V /mnt/Capri/work_Capri/vcf_output/Zu01_mtgenom_unpaired.g.vcf.gz
+
 
 
 #########extract flagstat name total reeds, mapped reads and propperly paired reeds for Sample_paried and total reeds and mapped reads for unpaired_sample
