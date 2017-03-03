@@ -212,7 +212,7 @@ samtools=/home/debian/bin/samtools-1.3.1/samtools
 trim=/mnt/Capri/work_Capri/trim_output
 
 
-for Name in BE1 #BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
+for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do 
 echo $Name
 java -jar $picard MarkDuplicates \
@@ -567,35 +567,17 @@ echo -V $work/Variant_call/VCF/${Name}_unpaired_VC.g.vcf.gz
 done >> Variant_names
 
 #2.copy content the list to the -V postition and run GenotypeGVCFs
-java -jar /Home_Ibex/Software/GenomeAnalysisTK.jar -T GenotypeGVCFs \
--nt 14 \
+for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
+do 
+echo $Name
+java -jar $GATK -T GenotypeGVCFs \
+-nt 30 \
 --includeNonVariantSites \
--V /mnt/Capri/work_Capri/vcf_output/BE1_mtgenom_paired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/BE1_mtgenom_unpaired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/BE3_mtgenom_paired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/BE3_mtgenom_unpaired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/BE4_mtgenom_paired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/BE4_mtgenom_unpaired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Be5_mtgenom_paired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Be5_mtgenom_unpaired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Chu_mtgenom_paired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Chu_mtgenom_unpaired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Lu01_mtgenom_paired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Lu01_mtgenom_unpaired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Lu2_mtgenom_paired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Lu2_mtgenom_unpaired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Lu3_mtgenom_paired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Lu3_mtgenom_unpaired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Lu04_mtgenom_paired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Lu04_mtgenom_unpaired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Na1_mtgenom_paired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Na1_mtgenom_unpaired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Wi1_mtgenom_paired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Wi1_mtgenom_unpaired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Zu01_mtgenom_paired.g.vcf.gz
--V /mnt/Capri/work_Capri/vcf_output/Zu01_mtgenom_unpaired.g.vcf.gz
-
-
+-R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+-V /mnt/Capri/work_Capri/vcf_output/${Name}_mtgenom_paired.g.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_output/${Name}_mtgenom_unpaired.g.vcf.gz \
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/single_mtgenom_vcfs/${Name}_Variants.vcf.gz 
+done 
 
 #########extract flagstat name total reeds, mapped reads and propperly paired reeds for Sample_paried and total reeds and mapped reads for unpaired_sample
 sed -ne '1~14p' sed -ne '2~14p' sed -ne '6~14p' sed -ne '10~28p' flagstat.txt | tee flagstat_extract.txt
