@@ -302,6 +302,35 @@ java -jar $GATK -T GenotypeGVCFs \
 -V /mnt/Capri/work_Capri/vcf_output/Zu01_mtgenom_unpaired.g.vcf.gz \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants.vcf.gz 
 
+############################################################################################################################
+#Spearete SNPs
+java -jar $GATK -T SelectVariants \
+-nt 30 \
+-R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants.vcf.gz \
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants_SNP.vcf.gz \
+-selectType SNP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #####################################################################################################################
 ## Quality Checks
 ################################################################################################
