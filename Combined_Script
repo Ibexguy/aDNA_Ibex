@@ -319,6 +319,45 @@ java -jar $GATK -T SelectVariants \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants_INDEL.vcf.gz \
 -selectType INDEL
 
+
+#Filter SNPs
+
+java -jar $GATK -T VariantFiltration \
+-nt 30 \
+-R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants_SNP.vcf.gz \
+-filterName "SnpQual" -filter "QD < 2.0 || \
+MQ < 40.0 || MQRankSum < -12.5 || \
+FS > 60.0 || SOR > 3.0 || \
+ReadPosRankSum < -8.0 || \
+DP > 400" \
+-G_filterName "GQ" -G_filter "GQ < 20 || DP == 0" \
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_snps.vcf.gz; \
+java -jar $GATK -T VariantFiltration \
+-nt 30 \
+-R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants_INDEL.vcf.gz \
+-filterName "IndelQual" -filter "QD < 2.0 || \
+FS > 200.0 || SOR > 10.0 || \
+ReadPosRankSum < -20.0 || \
+DP > 400" \
+-G_filterName "GQ" -G_filter "GQ < 20 || DP == 0" \
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_indels.vcf.gz
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ###
 bcftools=/home/debian/bin/bcftools-1.3.1/bcftools
 seqtk=/home/debian/bin/seqtk/seqtk
