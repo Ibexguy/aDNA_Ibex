@@ -332,7 +332,10 @@ FS > 60.0 || SOR > 3.0 || \
 ReadPosRankSum < -8.0 || \
 DP > 400" \
 -G_filterName "GQ" -G_filter "GQ < 20 || DP == 0" \
--o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_snps.vcf.gz; \
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_snps.vcf.gz
+
+
+#Filter Indels
 java -jar $GATK -T VariantFiltration \
 -nt 30 \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
@@ -344,8 +347,13 @@ DP > 400" \
 -G_filterName "GQ" -G_filter "GQ < 20 || DP == 0" \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_indels.vcf.gz
 
-
-
+#Combine VCF with filtered Indels and SNPs
+java -jar $GATK -T CombineVariants \
+-R -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_snps.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_indels.vcf.gz \
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genome_comb_indels_SNPs.vcf.gz \
+-genotypeMergeOptions UNSORTED
 
 
 
