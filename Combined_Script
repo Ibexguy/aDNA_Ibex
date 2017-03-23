@@ -227,6 +227,31 @@ OUTPUT=$dub/${Name}_dedub_unpaired.bam \
 METRICS_FILE=$dub/${Name}_dedub_unpaired.metrics
 $samtools index $dub/${Name}_dedub_unpaired.bam 
 done
+
+##add correct readgroups
+mkdir
+for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
+do
+echo $Name
+java -jar $picard AddOrReplaceReadGroups \
+      I=$dub/${Name}_dedub_paired.bam  \
+      O=$dub/${Name}_paired_RG.bam \
+      RGID=$Name \
+      RGLB=$Name \
+      RGPL=illumina \
+      RGPU=HISEQ \
+      RGSM=$Name
+      
+java -jar $picard AddOrReplaceReadGroups \
+      I=$dub/${Name}_dedub_unpaired.bam \
+      O=$dub/Variant_call/${Name}_paired_RG.bam \
+      RGID=$Name \
+      RGLB=$Name \
+      RGPL=illumina \
+      RGPU=HISEQ \
+      RGSM=$Name
+ done    
+samtools index $work/Variant_call/${Name}_paired_RG.bam
 ########################################################################################################
 ##############Variant calling
 #extract name of mitochondrion annotation from ref_genome : tail -1000  goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta | zgrep '>' 
@@ -247,18 +272,11 @@ echo $Name
 java -jar $GATK -T HaplotypeCaller \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 -L "gi|316926505|ref|NC_005044.2|" \
--I $dub/${Name}_dedub_paired.bam \
+-I $dub/${Name}_dedub_paired_RG.bam \
+-I $dub/${Name}_dedub_unpaired_RG.bam \
 -nct 30 \
 --emitRefConfidence BP_RESOLUTION \
--o /mnt/Capri/work_Capri/vcf_output/${Name}_mtgenom_paired.g.vcf.gz
-
-java -jar $GATK -T HaplotypeCaller \
--R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
--L "gi|316926505|ref|NC_005044.2|" \
--I $dub/${Name}_dedub_unpaired.bam \
--nct 30 \
---emitRefConfidence BP_RESOLUTION \
--o /mnt/Capri/work_Capri/vcf_output/${Name}_mtgenom_unpaired.g.vcf.gz
+-o /mnt/Capri/work_Capri/vcf_output/${Name}_mtgenom.g.vcf.gz
 done
 
 
