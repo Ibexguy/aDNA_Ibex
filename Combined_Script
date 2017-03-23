@@ -229,7 +229,6 @@ $samtools index $dub/${Name}_dedub_unpaired.bam
 done
 
 ##add correct readgroups
-mkdir
 for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do
 echo $Name
@@ -244,13 +243,14 @@ java -jar $picard AddOrReplaceReadGroups \
       
 java -jar $picard AddOrReplaceReadGroups \
       I=$dub/${Name}_dedub_unpaired.bam \
-      O=$dub/Variant_call/${Name}_paired_RG.bam \
+      O=$dub/${Name}_unpaired_RG.bam \
       RGID=$Name \
       RGLB=$Name \
       RGPL=illumina \
       RGPU=HISEQ \
       RGSM=$Name
- done    
+ done
+ 
 samtools index $work/Variant_call/${Name}_paired_RG.bam
 ########################################################################################################
 ##############Variant calling
