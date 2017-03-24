@@ -269,11 +269,13 @@ GATK=/home/debian/bin/GenomeAnalysisTK.jar
 for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do
 echo $Name
+$samtools index $dub/${Name}_paired_RG.bam 
+$samtools index $dub/${Name}_unpaired_RG.bam 
 java -jar $GATK -T HaplotypeCaller \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 -L "gi|316926505|ref|NC_005044.2|" \
--I $dub/${Name}_dedub_paired_RG.bam \
--I $dub/${Name}_dedub_unpaired_RG.bam \
+-I $dub/${Name}_paired_RG.bam \
+-I $dub/${Name}_unpaired_RG.bam  \
 -nct 30 \
 --emitRefConfidence BP_RESOLUTION \
 -o /mnt/Capri/work_Capri/vcf_output/${Name}_mtgenom.g.vcf.gz
@@ -403,7 +405,13 @@ $samtools mpileup -C50 -R -uf $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_0050
 ${Name}_dedub_q25.bam \
 | $bcftools call -c | $vcfutils vcf2fq > /mnt/Capri/work_Capri/mpile_output/${Name}_mtgenom.fq
 $seqtk seq -A /mnt/Capri/work_Capri/mpile_output/${Name}_mtgenom.fq > /mnt/Capri/work_Capri/mpile_output/${Name}_mtgenom.fa
-done
+
+#mitochondrial genome coverage -r option
+for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
+do
+echo $Name
+$samtools depth -a -r "gi|316926505|ref|NC_005044.2|" ${Name}_dedub_q25.bam | awk '{ count++ ; SUM += $3 } END { print "Total: " SUM "\t" "Nucleotides: " count "\t" "Average_coverage: " SUM/count }' 
+done >>$q25/mtGenome_coverage
  
 
 
