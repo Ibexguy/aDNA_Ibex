@@ -319,7 +319,7 @@ java -jar $GATK -T VariantFiltration \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 -V /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants_SNP.vcf.gz \
 -filterName "SnpQual" -filter "QD < 2.0 || \
-MQ < 40.0 || MQRankSum < -12.5 || \
+MQ < 20.0 || MQRankSum < -12.5 || \
 FS > 60.0 || SOR > 3.0 || \
 ReadPosRankSum < -8.0 || \
 DP > 400" \
@@ -377,6 +377,7 @@ $samtools mpileup -C50 -R -uf $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_0050
 ${Name}_dedub_q25.bam \
 | $bcftools call -c | $vcfutils vcf2fq > /mnt/Capri/work_Capri/mpile_output/${Name}_mtgenom.fq
 $seqtk seq -A /mnt/Capri/work_Capri/mpile_output/${Name}_mtgenom.fq > /mnt/Capri/work_Capri/mpile_output/${Name}_mtgenom.fa
+done
 
 #mitochondrial genome coverage -r option
 for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
