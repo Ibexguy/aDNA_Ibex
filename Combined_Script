@@ -292,35 +292,7 @@ echo -V $vcf_out/${Name}_mtgenom_unpaired.g.vcf.gz
 done >> $vcf_out/Variant_names
 
 #2.copy content the list to the -V postition and run GenotypeGVCFs
-java -jar $GATK -T GenotypeGVCFs \
--nt 30 \
---includeNonVariantSites \
--R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
--V /mnt/Capri/work_Capri/vcf_output/BE1_mtgenom_paired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/BE1_mtgenom_unpaired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/BE3_mtgenom_paired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/BE3_mtgenom_unpaired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/BE4_mtgenom_paired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/BE4_mtgenom_unpaired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Be5_mtgenom_paired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Be5_mtgenom_unpaired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Chu_mtgenom_paired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Chu_mtgenom_unpaired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Lu01_mtgenom_paired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Lu01_mtgenom_unpaired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Lu2_mtgenom_paired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Lu2_mtgenom_unpaired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Lu3_mtgenom_paired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Lu3_mtgenom_unpaired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Lu04_mtgenom_paired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Lu04_mtgenom_unpaired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Na1_mtgenom_paired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Na1_mtgenom_unpaired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Wi1_mtgenom_paired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Wi1_mtgenom_unpaired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Zu01_mtgenom_paired.g.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_output/Zu01_mtgenom_unpaired.g.vcf.gz \
--o /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants.vcf.gz 
+java -jar $GATK -T GenotypeGVCFs -nt 30 --includeNonVariantSites -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta -V /mnt/Capri/work_Capri/vcf_output/BE1_mtgenom.g.vcf.gz -V /mnt/Capri/work_Capri/vcf_output/BE3_mtgenom.g.vcf.gz -V /mnt/Capri/work_Capri/vcf_output/BE4_mtgenom.g.vcf.gz -V /mnt/Capri/work_Capri/vcf_output/Be5_mtgenom.g.vcf.gz -V /mnt/Capri/work_Capri/vcf_output/Chu_mtgenom.g.vcf.gz -V /mnt/Capri/work_Capri/vcf_output/Lu01_mtgenom.g.vcf.gz -V /mnt/Capri/work_Capri/vcf_output/Lu2_mtgenom.g.vcf.gz -V /mnt/Capri/work_Capri/vcf_output/Lu3_mtgenom.g.vcf.gz -V /mnt/Capri/work_Capri/vcf_output/Lu04_mtgenom.g.vcf.gz -V /mnt/Capri/work_Capri/vcf_output/Na1_mtgenom.g.vcf.gz -V /mnt/Capri/work_Capri/vcf_output/Wi1_mtgenom.g.vcf.gz -V /mnt/Capri/work_Capri/vcf_output/Zu01_mtgenom.g.vcf.gz -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants.vcf.gz
 
 ############################################################################################################################
 #Spearete SNPs
