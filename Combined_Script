@@ -374,7 +374,7 @@ echo $Name
 $samtools index $q25/${Name}_dedub_q25.bam 
 $samtools mpileup -C50 -R -uf $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 -r "gi|316926505|ref|NC_005044.2|" \
-${Name}_dedub_q25.bam \
+$q25/${Name}_dedub_q25.bam \
 | $bcftools call -c | $vcfutils vcf2fq > /mnt/Capri/work_Capri/mpile_output/${Name}_mtgenom.fq
 $seqtk seq -A /mnt/Capri/work_Capri/mpile_output/${Name}_mtgenom.fq > /mnt/Capri/work_Capri/mpile_output/${Name}_mtgenom.fa
 done
