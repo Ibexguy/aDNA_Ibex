@@ -266,6 +266,7 @@ O=/mnt/Capri/rawdata_Capri/ref_genome/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_00
 vcf_out=/mnt/Capri/work_Capri/vcf_output
 GATK=/home/debian/bin/GenomeAnalysisTK.jar
 
+
 for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do
 echo $Name
@@ -308,10 +309,12 @@ $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 -V /mnt/Capri/work_Capri/vcf_output/Zu01_mtgenom.g.vcf.gz \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants.vcf.gz
 
-#3. 
-zcat $work/VCFsnp/6.alt.chr$chr.snp.vcf.gz |\
-awk '!/#/ {print $6}' > QUAL.chr$chr.txt zcat $work/VCFsnp/6.alt.chr$chr.snp.vcf.gz | \
-awk '!/#/ {print $0}' | \
+
+#3. Check filterparameter distribution
+mtcomb=/mnt/Capri/work_Capri/vcf_comb_mtDNA
+
+zcat $mtcomb/Combined_Variants1.vcf.gz | awk '!/#/ {print $6}' > $mtcomb/filterparams/chr.txt \
+zcat $mtcomb/Combined_Variants1.vcf.gz | awk '!/#/ {print $0}' | \
 awk 'BEGIN{FS="[=]|[;]";OFS="\t"};{$1=$1};{print $0}' > temp.txt grep -oh "QD.*" temp.txt | \
 awk '{print $2}' > QD.chr$chr.txt grep -oh "FS.*" temp.txt | \
 awk '{print $2}' > FS.chr$chr.txt grep -oh "SOR.*" temp.txt | \
