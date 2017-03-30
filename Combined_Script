@@ -310,7 +310,7 @@ $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants.vcf.gz
 
 
-#3.Print filterparameter distribution
+#3.Extract Filter parameters from the combined unfiltered vcf file. 
 mtcomb=/mnt/Capri/work_Capri/vcf_comb_mtDNA
 params=/mnt/Capri/work_Capri/vcf_comb_mtDNA/filterparams
 
@@ -322,7 +322,10 @@ grep -oh "SOR.*" $params/temp.txt | awk '{print $2}' > $params/SOR.mitoch.txt
 grep -oh "MQRankSum.*" $params/temp.txt | awk '{print $2}' > $params/MQRank.mitoch.txt
 grep -oh "AN.*" $params/temp.txt | awk '{print $2}' > $params/AN.mitoch.txt
 
-
+#Print these files in R
+QD = read.table("QD.mitoch.txt")  # read text file 
+QD # print data frame 
+hist(QD) #Print distribution of QD
 ############################################################################################################################
 #Spearete SNPs
 java -jar $GATK -T SelectVariants \
