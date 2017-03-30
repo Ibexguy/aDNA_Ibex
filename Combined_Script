@@ -314,25 +314,14 @@ $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 mtcomb=/mnt/Capri/work_Capri/vcf_comb_mtDNA
 params=/mnt/Capri/work_Capri/vcf_comb_mtDNA/filterparams
 
-zcat $mtcomb/Combined_Variants.vcf.gz | awk '!/#/ {print $6}' > QUAL.mitoch.txt \
-zcat $mtcomb/Combined_Variants.vcf.gz | awk '!/#/ {print $0}' | awk 'BEGIN{FS="[=]|[;]";OFS="\t"};{$1=$1};{print $0}' > $parmas/temp.txt 
-grep -oh "QD.*" $parmas/temp.txt | awk '{print $2}' > $parmas/QD.mitoch.txt
-grep -oh "FS.*" $parmas/temp.txt | awk '{print $2}' > $parmas/FS.mitoch.txt
-grep -oh "SOR.*" $parmas/temp.txt | awk '{print $2}' > $parmas/SOR.mitoch.txt
-grep -oh "MQRankSum.*" $parmas/temp.txt | awk '{print $2}' > $parmas/FS.mitoch.txt
-grep -oh "AN.*" $parmas/temp.txt | awk '{print $2}' > $parmas/FS.mitoch.txt
+zcat $mtcomb/Combined_Variants.vcf.gz | awk '!/#/ {print $6}' > $params/QUAL.mitoch.txt 
+zcat $mtcomb/Combined_Variants.vcf.gz | awk '!/#/ {print $0}' | awk 'BEGIN{FS="[=]|[;]";OFS="\t"};{$1=$1};{print $0}' > $params/temp.txt 
+grep -oh "QD.*" $params/temp.txt | awk '{print $2}' > $params/QD.mitoch.txt
+grep -oh "FS.*" $params/temp.txt | awk '{print $2}' > $params/FS.mitoch.txt
+grep -oh "SOR.*" $params/temp.txt | awk '{print $2}' > $params/SOR.mitoch.txt
+grep -oh "MQRankSum.*" $params/temp.txt | awk '{print $2}' > $params/MQRank.mitoch.txt
+grep -oh "AN.*" $params/temp.txt | awk '{print $2}' > $params/AN.mitoch.txt
 
-
-zcat $mtcomb/Combined_Variants.vcf.gz | awk '!/#/ {print $6}' > QUAL.chr$chr.txt | \
-zcat $mtcomb/Combined_Variants.vcf.gz | awk '!/#/ {print $0}' | \
-awk 'BEGIN{FS="[=]|[;]";OFS="\t"};{$1=$1};{print $0}' > temp.txt grep -oh "QD.*" temp.txt | \
-awk '{print $2}' > QD.chr$chr.txt grep -oh "FS.*" temp.txt | \
-awk '{print $2}' > FS.chr$chr.txt grep -oh "SOR.*" temp.txt | \
-awk '{print $2}' > SOR.chr$chr.txt grep -oh "MQ.*" temp.txt | \
-awk '{print $2}' > MQ.chr$chr.txt grep -oh "MQRankSum.*" temp.txt | \
-awk '{print $2}' > MQRankSum.chr$chr.txt grep -oh "ReadPosRankSum.*" temp.txt | \
-awk '{print $2}' > ReadPosRankSum.chr$chr.txt grep -oh "AN.*" temp.txt | \
-awk '{print $2}' > AN.chr$chr.txt
 
 ############################################################################################################################
 #Spearete SNPs
