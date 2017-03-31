@@ -336,15 +336,21 @@ grep -oh "AN.*" $params/temp.txt | awk '{print $2}' > $params/AN.mitoch.txt
 QUAL = read.table("QUAL.mitoch.txt")  # read text file
 QUAL <- as.data.frame(QUAL) #Makes a Dataframe 
 QUAL<- as.numeric(QUAL [,1]) #Make dadaframe numeric
-hist(QUAL) #Make a Histogramm
+plot(density(QUAL)) #Make a Histogramm
 dev.print(pdf, 'QUAL.pdf')
 
 #Possibly also necessary to print this comand to exclude points: QUAL <- QUAL[QUAL$V1 != ".",] #Kicks 
-For all the others 
-QD = read.table("QD.mitoch.txt")  # read the produced text files, X.mitoch.txt is QD, FS, SOR, MDRANKSUM and AN
-QD <- as.numeric(QD [,1]) #Make dadaframe numeric
-hist(QD [,1]) #Make a Histogramm from second row! 
-dev.print(pdf, 'FS.pdf') #safe the plot as pdf
+
+#For all the others plot density like this
+SOR = read.table("SOR.mitoch.txt")  # read the produced text files, X.mitoch.txt is QD, FS, SOR, MDRANKSUM and AN
+SOR <- as.data.frame(SOR)
+SOR <- as.numeric(SOR [,1]) #Make dadaframe numeric
+plot(density(SOR)) #Make a Densitiy plot from second row! 
+dev.print(pdf, 'QD.pdf') #safe the plot as pdf
+
+#if necessary, scale x axis accordingli : 1=xaxis, at=spaxifie tiks, from 0 to 10 by intervall of 1), las2=2) change direction oflabeling)
+plot(density(SOR), xlim=c(1,4), xaxt="n") # plottet density plot von 1 to 4 und blendet x achse aus ums im nachfolgenden schritt geplottet zu werden
+axis(1, at = seq(0,2, by = 0.25)) #plots x acis with new intervall from eg 1 to 10
 
 # In Linux again
 okular QD.pdf #in linux -> open the Plot 
