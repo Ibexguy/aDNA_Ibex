@@ -311,6 +311,12 @@ $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 
 
 #3.Extract Filter parameters from the combined unfiltered vcf file. 
+#Meaning of Parameters
+#The QD is the QUAL score normalized by allele depth (AD) for a variant. 
+
+
+
+
 mtcomb=/mnt/Capri/work_Capri/vcf_comb_mtDNA
 params=/mnt/Capri/work_Capri/vcf_comb_mtDNA/filterparams
 
@@ -322,7 +328,7 @@ grep -oh "SOR.*" $params/temp.txt | awk '{print $2}' > $params/SOR.mitoch.txt
 grep -oh "MQRankSum.*" $params/temp.txt | awk '{print $2}' > $params/MQRank.mitoch.txt
 grep -oh "AN.*" $params/temp.txt | awk '{print $2}' > $params/AN.mitoch.txt
 
-#Print these files in R
+#Print these files in R, Therefore tipe R in the comand line in linux
 #Special Case for QUAL, because missing data is called as ".", and must therefore be excluded
 QUAL = read.table("QUAL.mitoch.txt")  # read text file
 QUAL <- as.data.frame(QUAL) #Makes a Dataframe 
@@ -337,6 +343,7 @@ QD <- as.numeric(QD [,1]) #Make dadaframe numeric
 hist(QD [,1]) #Make a Histogramm from second row! 
 dev.print(pdf, 'QD.pdf') #safe the plot as pdf
 
+# In Linux again
 okular QD.pdf #in linux -> open the Plot 
 
 
