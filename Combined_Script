@@ -313,7 +313,8 @@ $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 #Meaning of Parameters
 #The basic difference is that QUAL refers to the variant site whereas GQ refers to a specific sample's GT
 	#QUAL tells you how confident we are that there is some kind of variation at a given site. Its a 10^QUAL phred score. Depnes on size of dataset and can be enormous
-	#The QD is the QUAL score normalized by allele depth (AD) for a variant. GQ tells you how confident we are that the genotype we assigned to a particular sample is correct.
+	#The QD is the QUAL score normalized by allele depth (AD) for a variant. 
+	#GQ tells you how confident we are that the genotype we assigned to a particular sample is correct.It is simply the second lowest PL, because it is the difference between the second lowest PL and the lowest PL
 #PL : Normalized Phred-scaled likelihoods of the possible genotypes. When GQ is not good, you can typically rely on the PLs to tell you whether you do probably have a variant, but we're just not sure if it's het or hom-var.
 #SOR StrandsOddsRatio:Strand bias is a type of sequencing bias in which one DNA strand is favored over the other, which can result in incorrect evaluation of the amount of evidence observed for one allele vs. the other. 
 #FS FisherStrand is best suited for low coverage situations. For testing strand bias in higher coverage situations, see the StrandOddsRatio annotation he output is a Phred-scaled p-value. The higher the output value, the more likely there is to be bias
@@ -330,6 +331,8 @@ grep -oh "FS.*" $params/temp.txt | awk '{print $2}' > $params/FS.mitoch.txt
 grep -oh "SOR.*" $params/temp.txt | awk '{print $2}' > $params/SOR.mitoch.txt
 grep -oh "MQRankSum.*" $params/temp.txt | awk '{print $2}' > $params/MQRank.mitoch.txt
 grep -oh "AN.*" $params/temp.txt | awk '{print $2}' > $params/AN.mitoch.txt
+grep -oh "MQ.*" $params/temp.txt | awk '{print $2}' > $params/MQ.mitoch.txt
+grep -oh "GQ.*" $params/temp.txt | awk '{print $2}' > $params/GQ.mitoch.txt
 
 #Print these files in R, Therefore tipe R in the comand line in linux
 #Special Case for QUAL and FS because missing data is called as ".", and must therefore be excluded
@@ -342,11 +345,19 @@ dev.print(pdf, 'QUAL.pdf')
 #Possibly also necessary to print this comand to exclude points: QUAL <- QUAL[QUAL$V1 != ".",] #Kicks 
 
 #For all the others plot density like this
-AN = read.table("AN.mitoch.txt")  # read the produced text files, X.mitoch.txt is QD, FS, SOR, MDRANKSUM and AN
-AN <- as.data.frame(AN)
-AN<- as.numeric(AN [,1]) #Make dadaframe numeric
-plot(density(AN)) #Make a Densitiy plot from second row! 
-dev.print(pdf, 'AN.pdf') #safe the plot as pdf
+GQ = read.table("GQ.mitoch.txt")  # read the produced text files, X.mitoch.txt is QD, FS, SOR, MDRANKSUM and AN
+GQ<- as.data.frame(GQ)
+GQ<- as.numeric(GQ [,1]) #Make dadaframe numeric
+plot(density(GQ)) #Make a Densitiy plot from second row! 
+dev.print(pdf, 'MQ.pdf') #safe the plot as pdf
+
+#different for GT Quality, 
+GQ = read.table("GQ.mitoch.txt", sep=":", na.strings = "NA")  # read the produced text files, X.mitoch.txt is QD, FS, SOR, MDRANKSUM and AN
+GQ<- as.data.frame(GQ)
+GQ<- as.numeric(GQ [,1]) #Make dadaframe numeric
+plot(density(GQ)) #Make a Densitiy plot from second row! 
+dev.print(pdf, 'MQ.pdf') #safe the plot as pdf
+
 
 #if necessary, scale x axis accordingli : 1=xaxis, at=spaxifie tiks, from 0 to 10 by intervall of 1), las2=2) change direction oflabeling)
 plot(density(AN), xlim=c(15,25), xaxt="n") # plottet density plot von 15 to 25 und blendet x achse aus ums im nachfolgenden schritt geplottet zu werden
@@ -381,12 +392,12 @@ java -jar $GATK -T VariantFiltration \
 -nt 30 \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 -V /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants_SNP.vcf.gz \
--filterName "SnpQual" -filter "QD < 2.0 || \
-MQ < 20.0 || MQRankSum < -12.5 || \
-FS > 60.0 || SOR > 3.0 || \
+-filterName "SnpQual" -filter "QD < 20 || \
+MQ < 20.0 || MQRankSum < -4.0 || \
+FS > 10.0 || SOR > 3.0 || \
 ReadPosRankSum < -8.0 || \
 DP > 400" \
--G_filterName "GQ" -G_filter "GQ < 20 || DP == 0" \
+-G_filterName "GQ" -G_filter "GQ < 30 || DP == 0" \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_snps.vcf.gz
 
 
@@ -410,7 +421,12 @@ java -jar $GATK -T CombineVariants \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genome_comb_indels_SNPs.vcf.gz \
 -genotypeMergeOptions UNSORTED
 
-
+java -jar $GATK -T SelectVariants \
+-nt 30 \
+-R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants.vcf.gz \
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants_SNP_filtered.vcf.gz \
+--excludeFiltered
 
 
 
