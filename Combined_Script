@@ -332,7 +332,7 @@ grep -oh "MQRankSum.*" $params/temp.txt | awk '{print $2}' > $params/MQRank.mito
 grep -oh "AN.*" $params/temp.txt | awk '{print $2}' > $params/AN.mitoch.txt
 
 #Print these files in R, Therefore tipe R in the comand line in linux
-#Special Case for QUAL, because missing data is called as ".", and must therefore be excluded
+#Special Case for QUAL and FS because missing data is called as ".", and must therefore be excluded
 QUAL = read.table("QUAL.mitoch.txt")  # read text file
 QUAL <- as.data.frame(QUAL) #Makes a Dataframe 
 QUAL<- as.numeric(QUAL [,1]) #Make dadaframe numeric
@@ -344,7 +344,7 @@ For all the others
 QD = read.table("QD.mitoch.txt")  # read the produced text files, X.mitoch.txt is QD, FS, SOR, MDRANKSUM and AN
 QD <- as.numeric(QD [,1]) #Make dadaframe numeric
 hist(QD [,1]) #Make a Histogramm from second row! 
-dev.print(pdf, 'QD.pdf') #safe the plot as pdf
+dev.print(pdf, 'FS.pdf') #safe the plot as pdf
 
 # In Linux again
 okular QD.pdf #in linux -> open the Plot 
