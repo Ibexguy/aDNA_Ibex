@@ -142,7 +142,7 @@ trim=/mnt/Capri/work_Capri/trim_output
 for Name in BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do 
 echo $Name
-$bwa mem -t 30 -R '@RG\tID:$RG\tSM:$RG\tPL:illumina\tLB:$LB'-M \
+$bwa mem -t 30 -R '@RG\tID:$Name\tSM:$Name\tPL:illumina\tLB:$Name'-M \
 $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 $trim/${Name}_output_{forward,reverse}_paired.fq.gz | \
 $samtools view -bS - > $output/${Name}_output_bwa_pared.bam 
@@ -228,7 +228,7 @@ METRICS_FILE=$dub/${Name}_dedub_unpaired.metrics
 $samtools index $dub/${Name}_dedub_unpaired.bam 
 done
 
-##add correct readgroups
+##add correct readgroups, only necessary if $bwa mem -t 30 -R '@RG\tID:$RG\tSM:$RG\tPL:illumina\tLB:$LB'-M was falsly wrong set. 
 for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do
 echo $Name
@@ -345,7 +345,7 @@ dev.print(pdf, 'QUAL.pdf')
 #Possibly also necessary to print this comand to exclude points: QUAL <- QUAL[QUAL$V1 != ".",] #Kicks 
 
 #For all the others plot density like this
-GQ = read.table("GQ.mitoch.txt")  # read the produced text files, X.mitoch.txt is QD, FS, SOR, MDRANKSUM and AN
+GQ = read.table("GQ.mitoch.txt")  # read the produced text files, X.mitoch.txt where X is QD, FS, SOR, MDRANKSUM and AN
 GQ<- as.data.frame(GQ)
 GQ<- as.numeric(GQ [,1]) #Make dadaframe numeric
 plot(density(GQ)) #Make a Densitiy plot from second row! 
