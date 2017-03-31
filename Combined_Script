@@ -319,7 +319,7 @@ $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 #FS FisherStrand is best suited for low coverage situations. For testing strand bias in higher coverage situations, see the StrandOddsRatio annotation he output is a Phred-scaled p-value. The higher the output value, the more likely there is to be bias
 #MQRankSum MappingQulitityRankSumt This variant-level annotation compares the mapping qualities of the reads supporting the reference allele with those supporting the alternate allele. The ideal result is a value close to zero, which indicates there is little to no difference. 
 #  negative value indicates that the reads supporting the alternate allele have lower mapping quality scores than those supporting the reference allele
-
+# AN = Total number of alleles in called genotypes
 mtcomb=/mnt/Capri/work_Capri/vcf_comb_mtDNA
 params=/mnt/Capri/work_Capri/vcf_comb_mtDNA/filterparams
 
