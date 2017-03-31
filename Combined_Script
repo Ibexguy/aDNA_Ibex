@@ -314,7 +314,7 @@ $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 mtcomb=/mnt/Capri/work_Capri/vcf_comb_mtDNA
 params=/mnt/Capri/work_Capri/vcf_comb_mtDNA/filterparams
 
-zcat $mtcomb/Combined_Variants.vcf.gz | awk '!/#/ {print $6}' > $params/QUAL.mitoch.txt 
+zcat $mtcomb/Combined_Variants.vcf.gz | awk '!/#/ {print $6}' > $params/QUAL.mitoch.txt
 zcat $mtcomb/Combined_Variants.vcf.gz | awk '!/#/ {print $0}' | awk 'BEGIN{FS="[=]|[;]";OFS="\t"};{$1=$1};{print $0}' > $params/temp.txt 
 grep -oh "QD.*" $params/temp.txt | awk '{print $2}' > $params/QD.mitoch.txt
 grep -oh "FS.*" $params/temp.txt | awk '{print $2}' > $params/FS.mitoch.txt
@@ -323,9 +323,24 @@ grep -oh "MQRankSum.*" $params/temp.txt | awk '{print $2}' > $params/MQRank.mito
 grep -oh "AN.*" $params/temp.txt | awk '{print $2}' > $params/AN.mitoch.txt
 
 #Print these files in R
-QD = read.table("QD.mitoch.txt")  # read text file 
-QD # print data frame 
-hist(QD) #Print distribution of QD
+#Special Case for QUAL, because missing data is called as ".", and must therefore be excluded
+QUAL = read.table("QUAL.mitoch.txt")  # read text file
+QUAL <- as.data.frame(QUAL) #Makes a Dataframe 
+QUAL<- as.numeric(QUAL [,1]) #Make dadaframe numeric
+hist(QUAL) #Make a Histogramm
+dev.print(pdf, 'QUAL.pdf')
+
+#Possibly also necessary to print this comand to exclude points: QUAL <- QUAL[QUAL$V1 != ".",] #Kicks 
+For all the others 
+QD = read.table("QD.mitoch.txt")  # read the produced text files, X.mitoch.txt is QD, FS, SOR, MDRANKSUM and AN
+QD <- as.numeric(QD [,1]) #Make dadaframe numeric
+hist(QD [,1]) #Make a Histogramm from second row! 
+dev.print(pdf, 'QD.pdf') #safe the plot as pdf
+
+okular QD.pdf #in linux -> open the Plot 
+
+
+
 ############################################################################################################################
 #Spearete SNPs
 java -jar $GATK -T SelectVariants \
