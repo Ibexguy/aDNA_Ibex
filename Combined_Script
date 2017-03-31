@@ -285,7 +285,6 @@ done
 
 #####1.Print the list of variant names with paths to the cript (2)
 
-
 for Name in BE1 BE3 BE4 Be5 Chu Lu01 Lu2 Lu3 Lu04 Na1 Wi1 Zu01
 do
 echo -V $vcf_out/${Name}_mtgenom_paired.g.vcf.gz
@@ -312,10 +311,14 @@ $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 
 #3.Extract Filter parameters from the combined unfiltered vcf file. 
 #Meaning of Parameters
-#The QD is the QUAL score normalized by allele depth (AD) for a variant. 
-
-
-
+#The basic difference is that QUAL refers to the variant site whereas GQ refers to a specific sample's GT
+	#QUAL tells you how confident we are that there is some kind of variation at a given site. Its a 10^QUAL phred score. Depnes on size of dataset and can be enormous
+	#The QD is the QUAL score normalized by allele depth (AD) for a variant. GQ tells you how confident we are that the genotype we assigned to a particular sample is correct.
+#PL : Normalized Phred-scaled likelihoods of the possible genotypes. When GQ is not good, you can typically rely on the PLs to tell you whether you do probably have a variant, but we're just not sure if it's het or hom-var.
+#SOR StrandsOddsRatio:Strand bias is a type of sequencing bias in which one DNA strand is favored over the other, which can result in incorrect evaluation of the amount of evidence observed for one allele vs. the other. 
+#FS FisherStrand is best suited for low coverage situations. For testing strand bias in higher coverage situations, see the StrandOddsRatio annotation he output is a Phred-scaled p-value. The higher the output value, the more likely there is to be bias
+#MQRankSum MappingQulitityRankSumt This variant-level annotation compares the mapping qualities of the reads supporting the reference allele with those supporting the alternate allele. The ideal result is a value close to zero, which indicates there is little to no difference. 
+#  negative value indicates that the reads supporting the alternate allele have lower mapping quality scores than those supporting the reference allele
 
 mtcomb=/mnt/Capri/work_Capri/vcf_comb_mtDNA
 params=/mnt/Capri/work_Capri/vcf_comb_mtDNA/filterparams
