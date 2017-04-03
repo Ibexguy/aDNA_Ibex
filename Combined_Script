@@ -386,7 +386,7 @@ java -jar $GATK -T SelectVariants \
 -selectType INDEL
 
 
-#Filter SNPs
+#Filter SNPs for ancient samples
 
 java -jar $GATK -T VariantFiltration \
 -nt 30 \
@@ -400,7 +400,8 @@ DP > 400" \
 -G_filterName "GQ" -G_filter "GQ < 30 || DP == 0" \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_snps.vcf.gz
 
-#############not done for the analyss
+#not done for the analyss
+########################################################################################################################################
 #Filter Indels
 java -jar $GATK -T VariantFiltration \
 -nt 30 \
@@ -421,7 +422,7 @@ java -jar $GATK -T CombineVariants \
 -V /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_indels.vcf.gz \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genome_comb_indels_SNPs.vcf.gz \
 -genotypeMergeOptions UNSORTED
-######################################################
+##########################################################################################################################################
 
 ###ehler falsdches imputfile gewählt !!!
 #Exclude filtered SNPs
@@ -433,19 +434,29 @@ java -jar $GATK -T SelectVariants \
 --excludeFiltered
 
 
-#Filter SNPs from modern samples 
+#############################################################################################################################################
+#
+java -jar $GATK -T SelectVariants \
+-nt 15 \
+-R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants.MT.vcf.gz \
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants_SNP_filtered.MT.vcf.gz \
+-selectType SNP
+
+
+Filter SNPs from modern samples 
 
 java -jar $GATK -T VariantFiltration \
--nt 30 \
+-nt 15 \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
--V /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants_SNP.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants.MT.vcf.gz \
 -filterName "SnpQual" -filter "QD < 20 || \
 MQ < 20.0 || MQRankSum < -4.0 || \
 FS > 10.0 || SOR > 3.0 || \
 ReadPosRankSum < -8.0 || \
 DP > 400" \
 -G_filterName "GQ" -G_filter "GQ < 30 || DP == 0" \
--o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_snps.vcf.gz 
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants_filtered.vcf.gz 
 
 
 #make new index for the mdoern variants
