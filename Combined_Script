@@ -436,12 +436,11 @@ java -jar $GATK -T SelectVariants \
 /home/debian/bin/htslib-1.3.2/tabix -p vcf /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants.MT.vcf.gz
 
 #Combine VCF from ancient and modern samples
-java -jar $GATK -T CombineVariants \
+java -jar $GATK -T CombineGVCFs \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 -V /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants_SNP_filtered.vcf.gz \
 -V /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants.MT.vcf.gz \
--o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mtgenome_modern_ancient_combined.vcf.gz \
--genotypeMergeOptions UNSORTED
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mtgenome_modern_ancient_combined.vcf.gz 
 
 #Exclude filtered SNPs
 
