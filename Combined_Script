@@ -424,7 +424,7 @@ DP > 400" \
 #############not done for the analyss
 #Combine VCF with filtered Indels and SNPs
 java -jar $GATK -T CombineVariants \
--R -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+-R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 -V /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_snps.vcf.gz \
 -V /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_indels.vcf.gz \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genome_comb_indels_SNPs.vcf.gz \
