@@ -458,6 +458,16 @@ DP > 400" \
 -G_filterName "GQ" -G_filter "GQ < 20 || DP == 0" \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants_SNP_excluded.vcf.gz 
 
+#Exclude filtered SNPs
+java -jar $GATK -T SelectVariants \
+-nt 30 \
+-R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants_SNP_excluded.vcf.gz   \
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants_SNP_excluded_definitiv.vcf.gz \
+--excludeFiltered
+
+
+
 
 #make new index for the mdoern variants
 /home/debian/bin/htslib-1.3.2/tabix -p vcf /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants.MT.vcf.gz
@@ -469,7 +479,8 @@ vcf-merge \
 /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants.MT.vcf.gz \
 | gzip -c >  /mnt/Capri/work_Capri/vcf_comb_mtDNA/mtgenome_modern_ancient_combined.vcf.gz
 
-#Exclude filtered SNPs
+
+
 
 Convert autoput file to Phylip.pl file!
 perl ./Fasta2Phylip.pl 
