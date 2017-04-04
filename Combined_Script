@@ -367,7 +367,6 @@ axis(1, at = seq(15,25, by = 2.5)) #plots x acis with new intervall from eg 15 t
 okular QD.pdf #in linux -> open the Plot 
 
 
-
 ############################################################################################################################
 #Spearete SNPs
 java -jar $GATK -T SelectVariants \
@@ -472,7 +471,9 @@ vcf-merge \
 
 #Exclude filtered SNPs
 
-
+Convert autoput file to Phylip.pl file!
+perl ./Fasta2Phylip.pl 
+Usage: perl Fasta2Phylip.pl inputFastaFile outputPhilipFile
 
 
 
