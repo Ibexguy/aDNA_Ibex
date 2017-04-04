@@ -387,18 +387,26 @@ java -jar $GATK -T SelectVariants \
 
 
 #Filter SNPs for ancient samples
-
 java -jar $GATK -T VariantFiltration \
 -nt 30 \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 -V /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants_SNP.vcf.gz \
--filterName "SnpQual" -filter "QD < 20 || \
-MQ < 20.0 || MQRankSum < -4.0 || \
-FS > 10.0 || SOR > 3.0 || \
+-filterName "SnpQual" -filter "QD < 2.0 || \
+MQ < 20.0 || MQRankSum < -12.5 || \
+FS > 60.0 || SOR > 3.0 || \
 ReadPosRankSum < -8.0 || \
 DP > 400" \
--G_filterName "GQ" -G_filter "GQ < 30 || DP == 0" \
+-G_filterName "GQ" -G_filter "GQ < 20 || DP == 0" \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_snps.vcf.gz
+
+#Exclude filtered SNPs
+java -jar $GATK -T SelectVariants \
+-nt 16 \
+-R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_snps.vcf.gz \
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants_SNP_excluded.vcf.gz \
+--excludeFiltered
+
 
 #not done for the analyss
 ########################################################################################################################################
@@ -424,18 +432,11 @@ java -jar $GATK -T CombineVariants \
 -genotypeMergeOptions UNSORTED
 ##########################################################################################################################################
 
-###ehler falsdches imputfile gewählt !!!
-#Exclude filtered SNPs
-java -jar $GATK -T SelectVariants \
--nt 16 \
--R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
--V /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_snps.vcf.gz \
--o /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants_SNP_excluded.vcf.gz \
---excludeFiltered
+
 
 
 #############################################################################################################################################
-#
+####################  MODERN VARIANTS             ################################################################################
 java -jar $GATK -T SelectVariants \
 -nt 15 \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
@@ -449,14 +450,14 @@ Filter SNPs from modern samples
 java -jar $GATK -T VariantFiltration \
 -nt 15 \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
--V /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants.MT.vcf.gz \
--filterName "SnpQual" -filter "QD < 20 || \
-MQ < 20.0 || MQRankSum < -4.0 || \
-FS > 10.0 || SOR > 3.0 || \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants_SNP_filtered.MT.vcf.gz \
+-filterName "SnpQual" -filter "QD < 2.0 || \
+MQ < 20.0 || MQRankSum < -12.5 || \
+FS > 60.0 || SOR > 3.0 || \
 ReadPosRankSum < -8.0 || \
 DP > 400" \
--G_filterName "GQ" -G_filter "GQ < 30 || DP == 0" \
--o /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants_filtered.vcf.gz 
+-G_filterName "GQ" -G_filter "GQ < 20 || DP == 0" \
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants_SNP_excluded.vcf.gz 
 
 
 #make new index for the mdoern variants
@@ -818,3 +819,15 @@ java -jar $GATK \
 --emitRefConfidence GVCF \
 -o mtgenome_modern_ancient_combined.vcf.gz
 
+possible optimal filters
+java -jar $GATK -T VariantFiltration \
+-nt 30 \
+-R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants_SNP.vcf.gz \
+-filterName "SnpQual" -filter "QD < 20 || \
+MQ < 20.0 || MQRankSum < -4.0 || \
+FS > 10.0 || SOR > 3.0 || \
+ReadPosRankSum < -8.0 || \
+DP > 400" \
+-G_filterName "GQ" -G_filter "GQ < 30 || DP == 0" \
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_snps.vcf.gz
