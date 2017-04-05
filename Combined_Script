@@ -466,6 +466,18 @@ java -jar $GATK -T SelectVariants \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants_SNP_excluded_definitiv.vcf.gz \
 --excludeFiltered
 
+#combine modern and ancient VCFs
+java -jar $GATK -T CombineVariants \
+-R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants_SNP_excluded_definitiv.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants_SNP_excluded.vcf.gz \
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genome_comb_modern_ancient_Capra_ibex.vcf.gz \
+-genotypeMergeOptions UNSORTED
+
+
+perl ./Fasta2Phylip.pl 
+Usage: perl Fasta2Phylip.pl inputFastaFile outputPhilipFile
+
 
 
 
@@ -483,10 +495,7 @@ vcf-merge \
 
 
 Convert autoput file to Phylip.pl file!
-perl ./Fasta2Phylip.pl 
-Usage: perl Fasta2Phylip.pl inputFastaFile outputPhilipFile
-
-
+perl ./Fasta2Phylip.pl /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genome_comb_modern_ancient_capra_ibex.fa /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genome_comb_modern_ancient_capra_ibex.phy
 
 
 
