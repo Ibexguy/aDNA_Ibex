@@ -430,12 +430,9 @@ java -jar $GATK -T CombineVariants \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genome_comb_indels_SNPs.vcf.gz \
 -genotypeMergeOptions UNSORTED
 ##########################################################################################################################################
-
-
-
-
 #############################################################################################################################################
-####################  MODERN VARIANTS             ################################################################################
+####################  MODERN VARIANTS ##############################################################################################
+
 java -jar $GATK -T SelectVariants \
 -nt 15 \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
@@ -474,9 +471,20 @@ java -jar $GATK -T CombineVariants \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genome_comb_modern_ancient_Capra_ibex.vcf.gz \
 -genotypeMergeOptions UNSORTED
 
+zgrep -v '#' /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genome_comb_modern_ancient_Capra_ibex.vcf.gz | head -n 165
+
+zcat /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genome_comb_modern_ancient_Capra_ibex.vcf.gz | awk '$5 !~/\*/' > /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genome_mod_anc_Capra_ibex_dels_excludet.vcf
+vcf=/mnt/Capri/work_Capri/vcf_comb_mtDNA/
 
 perl ./Fasta2Phylip.pl 
-Usage: perl Fasta2Phylip.pl inputFastaFile outputPhilipFile
+Usage: perl Fasta2Phylip.pl mt_genome_comb_modern_ancient_capra_ibex.fa mt_genome_comb_modern_ancient_capra_ibex.phy
+
+######RAXML tree building
+raxml=/home/debian/bin/standard-RAxML-master
+
+#Produce 100 Raxml bootrstraps plus lables and a tree
+$raxml/raxmlHPC -f a -m GTRGAMMA -p 12345 -x 12345 -# 100 -s  $vcf/mt_genome_comb_modern_ancient_capra_ibex.phy -n Capri
+
 
 
 
