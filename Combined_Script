@@ -395,7 +395,6 @@ MQ < 20.0 || MQRankSum < -12.5 || \
 FS > 60.0 || SOR > 3.0 || \
 ReadPosRankSum < -8.0 || \
 DP > 400" \
--G_filterName "GQ" -G_filter "GQ < 20 || DP == 0" \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/mt_genom_filtered_snps.vcf.gz
 
 #Exclude filtered SNPs
@@ -433,15 +432,17 @@ java -jar $GATK -T CombineVariants \
 #############################################################################################################################################
 ####################  MODERN VARIANTS ##############################################################################################
 
+
+*##################################
+##Filter SNPs from modern samples 
+####################################
+
 java -jar $GATK -T SelectVariants \
 -nt 15 \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 -V /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants.MT.vcf.gz \
 -o /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants_SNP_filtered.MT.vcf.gz \
 -selectType SNP
-
-
-Filter SNPs from modern samples 
 
 java -jar $GATK -T VariantFiltration \
 -nt 15 \
@@ -537,8 +538,23 @@ $samtools depth -a -r "gi|316926505|ref|NC_005044.2|" ${Name}_dedub_q25.bam | aw
 done >>$q25/mtGenome_coverage
  
 
+chr=mt
+i=mt
+gunzip modern_variants_SNP_excluded.vcf.gz -c > modern_variants_SNP_excluded.vcf
+echo "library(ggplot2)" > GATK.filter.chr$i.R
+echo "vcffilter <- read.table(pipe('cut -f 7 modern_variants_SNP_excluded.vcf'), header=T)" >> GATK.filter.chr$i.R
+echo "summary <- table(vcffilter$FILTER)" >> GATK.filter.chr$i.R
+echo "write.table(summary, 'SNPFilterScores.chr${i}.txt', quote=F, row.names=F)" >> GATK.filter.chr$i.R
+echo "ggplot(vcffilter, aes(x=FILTER)) + geom_bar() + labs(title = 'Variant filters applied by GATK') + theme(axis.text.x = element_text(size=7, angle=90, hjust=1.0, vjust=0.5))" >> GATK.filter.chr$i.R
+echo "ggsave('SNPFilterScores.chr${i}.pdf', width=10)" >> GATK.filter.chr$i.R
+echo "ggplot(vcffilter, aes(x=FILTER)) + geom_bar() + labs(title = 'Variant filters applied by GATK') + theme(axis.text.x = element_text(size=7, angle=90, hjust=1.0, vjust=0.5)) + ylim(c(0,30000))" >> GATK.filter.chr$i.R
+echo "ggsave('SNPFilterScores.zoom.chr${i}.pdf', width=10)" >> GATK.filter.chr$i.R
+R --no-save < GATK.filter.chr${i}.R
 
 
+
+rm GATK.filter.chr${i}.R
+rm chr$chr.snp.filt.vcf
 
 
 
