@@ -399,8 +399,8 @@ java -jar $GATK -T VariantFiltration \
 -nt 30 \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
 -V /mnt/Capri/work_Capri/comb_variants/vcf_comb_mtDNA/comb_variants/modrn_ancient_comb_selectvaraints.vcf.gz \
--filterName "QD" -filter "QD < 2.0 || \
--filtername "usw...
+-filterName "QD" -filter "QD < 2.0"  \
+-filtername "usw...für alle filter!!
 
 
 MQ < 20.0 || MQRankSum < -12.5 || \
