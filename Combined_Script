@@ -375,14 +375,15 @@ GATK=/home/debian/bin/GenomeAnalysisTK.jar
 export PATH=$PATH:/home/debian/bin/htslib-1.3.2
 
 
-/home/debian/bin/htslib-1.3.2/tabix -p vcf /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants_MT_indel.vcf.gz 
+/home/debian/bin/htslib-1.3.2/tabix -p vcf /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants1.vcf.gz
+/home/debian/bin/htslib-1.3.2/tabix -p vcf /mnt/Capri/work_Capri/vcf_comb_mtDNA/6.alt.MT.vcf.gz 
 
 
 java -jar $GATK -T CombineVariants \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
--V /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants.vcf.gz \
--V /mnt/Capri/work_Capri/vcf_comb_mtDNA/comb_variants/modern_variants_MT_indel_excludet.vcf.gz   \
--o /mnt/Capri/work_Capri/comb_variants/comb_variants/modrn_ancient_comb_combinevariants.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/6.alt.MT.vcf.gz  \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants1.vcf.gz \
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/comb_variants/modrn_ancient_comb_combinevariants.vcf.gz \
 -genotypeMergeOptions UNSORTED
 
 #Combine VCF from ancient and modern samples
