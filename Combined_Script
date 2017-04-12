@@ -381,13 +381,13 @@ export PATH=$PATH:/home/debian/bin/htslib-1.3.2
 
 java -jar $GATK -T CombineVariants \
 -R $refg/goat.chir1_0.GCA_000317765_1ANDmtdna.NC_005044.2.fasta \
--V /mnt/Capri/work_Capri/vcf_comb_mtDNA/6.alt.MT.vcf.gz  \
--V /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants1.vcf.gz \
--o /mnt/Capri/work_Capri/vcf_comb_mtDNA/comb_variants/modrn_ancient_comb_combinevariants.vcf.gz \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/6.alt.MT.vcf \
+-V /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants1.vcf  \
+-o /mnt/Capri/work_Capri/vcf_comb_mtDNA/comb_variants/modrn_ancient_comb_combinevariants.vcf \
 -genotypeMergeOptions UNSORTED
 
 #Combine VCF from ancient and modern samples
-vcf-merge /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants.vcf.gz /mnt/Capri/work_Capri/vcf_comb_mtDNA/modern_variants_MT_indel_excludet.vcf.gz | >  /mnt/Capri/work_Capri/vcf_comb_mtDNA/comb_variants/mtgenome_modern_ancient_combinevcf.vcf
+vcf-merge /mnt/Capri/work_Capri/vcf_comb_mtDNA/Combined_Variants.vcf.gz /mnt/Capri/work_Capri/vcf_comb_mtDNA/6.alt.MT.vcf.gz.vcf.gz | >  /mnt/Capri/work_Capri/vcf_comb_mtDNA/comb_variants/mtgenome_modern_ancient_combinevcf.vcf
 
 
 path=/mnt/Capri/work_Capri/vcf_comb_mtDNA/comb_variants
